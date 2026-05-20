@@ -1,0 +1,20 @@
+project:
+  type: default
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    theme: cosmo
+    grid:
+      body-width: 1100px
+    reference-location: margin
+    code-copy: true
+    code-overflow: wrap
+    lightbox: true
+
+execute:
+  eval: true
+  cache: true
+  warning: false
