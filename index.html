@@ -670,7 +670,7 @@ Note
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Example:"</span>, annotations[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded 100 (label, reference NACE 2.1 code) pairs
-Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real estate', 'label': 'Rental revenue from property holdings'}</code></pre>
+Example: {'code': '66.30', 'name': 'Fund management activities', 'label': 'Investment fund governance'}</code></pre>
 </div>
 </div>
 </section>
@@ -722,48 +722,48 @@ Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real e
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>Rental revenue from property holdings</td>
-<td>68.20</td>
-<td>68.2</td>
+<td>Investment fund governance</td>
+<td>66.30</td>
+<td>66.30</td>
 <td>True</td>
-<td>1.00</td>
-<td>[68.2, 68, 77.5, 68.3, 77.3]</td>
+<td>0.85</td>
+<td>[66.3, 66.30, 65.3, 64.31, 64.3]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>Residential property administration services</td>
-<td>68.32</td>
-<td>68.32</td>
+<td>Instruction for obtaining a driver’s license</td>
+<td>85.53</td>
+<td>85.53</td>
 <td>True</td>
-<td>0.95</td>
-<td>[68, 68.2, 68.3, 68.32, 87.9]</td>
+<td>1.00</td>
+<td>[85.53, 85, 77.1, 74.2, 69.1]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>Investment property management</td>
-<td>68.20</td>
-<td>68.20</td>
+<td>Distribution of workwear to businesses</td>
+<td>46.42</td>
+<td>47.71</td>
 <td>True</td>
-<td>0.95</td>
-<td>[68.2, 68, 66.3, 68.3, 68.20]</td>
+<td>0.80</td>
+<td>[14.23, 13.3, 15.2, 47.71, 32.3]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>Specialized orthodontic treatment services</td>
-<td>86.23</td>
-<td>86.23</td>
+<td>Software modification for system integration</td>
+<td>62.10</td>
+<td>62.10</td>
 <td>True</td>
-<td>1.00</td>
-<td>[86.23, 86.2, 43.6, 86.97, 86.22]</td>
+<td>0.95</td>
+<td>[95.1, 62.1, 62.9, 62.10, 95.4]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>Photovoltaic panel array mounting</td>
-<td>43.21</td>
-<td>NaN</td>
-<td>False</td>
-<td>0.00</td>
-<td>[55.3, 74.2, 27.4, 81.1, 49.5]</td>
+<td>Industrial chocolate creation</td>
+<td>10.82</td>
+<td>10.82</td>
+<td>True</td>
+<td>1.00</td>
+<td>[11.0, 10.82, 32.9, 12.0, 32.4]</td>
 </tr>
 </tbody>
 </table>
@@ -818,17 +818,17 @@ Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real e
         RAG RECODIFICATION: NACE 2.1
 ====================================================
   Activities processed         : 100
-  Correctly recoded            : 41  (41.0%)
+  Correctly recoded            : 46  (46.0%)
 
-  Retriever@5 accuracy         : 46.0%
-  LLM accuracy (conditional)   : 89.1%
-  Pipeline accuracy            : 41.0%
+  Retriever@5 accuracy         : 51.0%
+  LLM accuracy (conditional)   : 90.2%
+  Pipeline accuracy            : 46.0%
 
-  Retriever errors             : 54  (54.0%)
+  Retriever errors             : 49  (49.0%)
   LLM errors                   : 5  (5.0%)
 ====================================================
 
-Cross-check: Retriever@k × LLM = 0.460 × 0.891 = 41.0%</code></pre>
+Cross-check: Retriever@k × LLM = 0.510 × 0.902 = 46.0%</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
