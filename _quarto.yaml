@@ -1,5 +1,7 @@
 project:
   type: default
+  resources:
+    - img/**
 
 format:
   html:
