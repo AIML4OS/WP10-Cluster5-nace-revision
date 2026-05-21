@@ -39,6 +39,9 @@ jobs:
       - name: Render
         run: uv run quarto render
 
+      - name: Copy static assets into _site
+        run: cp -r img _site/img
+
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
