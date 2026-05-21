@@ -1,8 +1,11 @@
 project:
-  type: default
+  type: website
   output-dir: _site
   resources:
     - img/**
+
+website:
+  title: "NACE recodification with RAG"
 
 format:
   html:
