@@ -1,24 +1,46 @@
 project:
   type: website
   output-dir: _site
+  execute-dir: project
   resources:
     - img/**
+  render:
+    - index.qmd
+    - notebooks/nace-rag-tutorial.qmd
+    - about.qmd
 
 website:
+  page-navigation: true
   title: "NACE recodification with RAG"
+  site-url: "https://aiml4os.github.io/WP10-Cluster5-nace-revision"
+  repo-url: "https://github.com/AIML4OS/WP10-Cluster5-nace-revision"
+  repo-actions: [edit, source, issue]
+  sidebar:
+    search: true
+    contents:
+      - href: index.qmd
+        text: Introduction
+      - href: notebooks/nace-rag-tutorial.qmd
+        text: Tutorial
+      - href: about.qmd
+        text: About
 
 format:
   html:
+    theme: cosmo
+    css: styles.css
     toc: true
     toc-depth: 3
-    toc-location: left
-    theme: cosmo
+    number-sections: true
     grid:
       body-width: 1100px
     reference-location: margin
     code-copy: true
     code-overflow: wrap
     lightbox: true
+  ipynb:
+    execute:
+      enabled: false
 
 execute:
   eval: true

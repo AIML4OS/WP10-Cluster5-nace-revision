@@ -44,6 +44,11 @@ jobs:
           mkdir -p _site/img
           cp -r img/. _site/img/
 
+      - name: Check that the downloadable notebook was produced
+        run: |
+          test -f _site/notebooks/nace-rag-tutorial.ipynb
+          find _site -maxdepth 2 -type f
+
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
