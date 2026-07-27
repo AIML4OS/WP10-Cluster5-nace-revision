@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Julien Pramil">
-<meta name="dcterms.date" content="2026-07-27">
-<meta name="description" content="A reproducible Retrieval-Augmented Generation (RAG) pipeline for recoding free-text descriptions of economic activities into the NACE 2.1 nomenclature, running end-to-end on SSPCloud (Qdrant vector database, llm.lab gateway, S3 / MinIO). Inspired by subject 2 of the 2026 AIML4OS funathon.">
 
-<title>NACE recodification with RAG: a reproducible pipeline on SSPCloud – NACE recodification with RAG</title>
+<title>About – NACE recodification with RAG</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -39,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./notebooks/nace-rag-tutorial.html" rel="next">
+<link href="./notebooks/nace-rag-tutorial.html" rel="prev">
 <link href="./resources/profile/main3.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -55,8 +52,6 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-7a9f72d75f7af8bb850204e0d32c4a9b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-7a9f72d75f7af8bb850204e0d32c4a9b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-7a9f72d75f7af8bb850204e0d32c4a9b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -98,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -126,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -138,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link">
+  <a href="./about.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -152,49 +147,26 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-this-tutorial" id="toc-what-is-this-tutorial" class="nav-link active" data-scroll-target="#what-is-this-tutorial"><span class="header-section-number">1</span> What is this tutorial?</a></li>
-  <li><a href="#how-to-use-it" id="toc-how-to-use-it" class="nav-link" data-scroll-target="#how-to-use-it"><span class="header-section-number">2</span> How to use it?</a></li>
+  <li><a href="#about-this-tutorial" id="toc-about-this-tutorial" class="nav-link active" data-scroll-target="#about-this-tutorial"><span class="header-section-number">1</span> About this tutorial</a></li>
+  <li><a href="#author" id="toc-author" class="nav-link" data-scroll-target="#author"><span class="header-section-number">2</span> Author</a></li>
+  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license"><span class="header-section-number">3</span> License</a></li>
+  <li><a href="#source" id="toc-source" class="nav-link" data-scroll-target="#source"><span class="header-section-number">4</span> Source</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/edit/main/about.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/blob/main/about.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
-<img src="resources/cover/main2.png" style="max-width:900px;width:100%"><br>
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">NACE recodification with RAG: a reproducible pipeline on SSPCloud</h1>
+<h1 class="title">About</h1>
 </div>
 
-<div>
-  <div class="description">
-    <p>A reproducible Retrieval-Augmented Generation (RAG) pipeline for recoding free-text descriptions of economic activities into the NACE 2.1 nomenclature, running end-to-end on SSPCloud (Qdrant vector database, llm.lab gateway, S3 / MinIO). Inspired by subject 2 of the 2026 AIML4OS funathon.</p>
-  </div>
-</div>
 
-<div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
-  <div class="quarto-title-meta-heading">Affiliation</div>
-  
-    <div class="quarto-title-meta-contents">
-    <p class="author">Julien Pramil <a href="mailto:julien.pramil@insee.fr" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            <a href="https://www.insee.fr/fr/accueil">Insee</a>
-          </p>
-      </div>
-  </div>
 
 <div class="quarto-title-meta">
 
-      
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">July 27, 2026</p>
-    </div>
-  </div>
+    
   
     
   </div>
@@ -204,33 +176,28 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="what-is-this-tutorial" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> What is this tutorial?</h1>
-<p>This tutorial is written in <i class="fa-brands fa-python" aria-label="python"></i> <code>Python</code> and shows a <strong>Retrieval-Augmented Generation (RAG)</strong> pipeline for an automatic-coding use case: recoding free-text descriptions of economic activities into the new <strong>NACE 2.1</strong> nomenclature. The whole pipeline runs end-to-end on the SSPCloud (Insee’s open-source data-science platform): a Qdrant vector database for retrieval, the <code>llm.lab</code> gateway for embeddings and generation, and S3 / MinIO for the data. The same recipe applies to any statistical nomenclature or controlled vocabulary, and to any environment that exposes an OpenAI-compatible LLM endpoint and a Qdrant instance.</p>
-<p>This tutorial is inspired by subject 2 of the 2026 funathon — see its dedicated website: <a href="https://aiml4os.github.io/funathon-project2/">funathon-project2</a>. Compared to that more pedagogical version, this notebook is direct: every step of the RAG pipeline is shown with its working code, without question/answer scaffolding.</p>
+<section id="about-this-tutorial" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="about-this-tutorial"><span class="header-section-number">1</span> About this tutorial</h2>
+<p>This tutorial is part of the training material developed for the <a href="https://github.com/AIML4OS">AIML4OS</a> project (Artificial Intelligence and Machine Learning for Official Statistics). It is inspired by <a href="https://aiml4os.github.io/funathon-project2/">subject 2 of the 2026 AIML4OS funathon</a>, which explores the same NACE 2.1 recodification problem with a more pedagogical, question/answer-driven approach.</p>
 </section>
-<section id="how-to-use-it" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> How to use it?</h1>
-<div class="callout callout-style-simple callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Try it interactively
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Launch a ready-to-use <strong>VS Code</strong> service on SSPCloud: it clones this repository, installs the Python environment (<code>uv sync</code>), and downloads the tutorial as a runnable Jupyter notebook — no local installation required.</p>
-<p><a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&amp;onyxia.friendlyName=«NACE-RAG-tutorial»&amp;init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&amp;init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&amp;git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&amp;logoColor=white" alt="Onyxia"></a></p>
-</div>
-</div>
-<p>Ready to read the full walkthrough first? Go to <strong><a href="./notebooks/nace-rag-tutorial.html">the tutorial</a></strong>.</p>
+<section id="author" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="author"><span class="header-section-number">2</span> Author</h2>
+<ul>
+<li><strong>Julien Pramil</strong> — <a href="https://www.insee.fr/fr/accueil">Insee</a></li>
+</ul>
+</section>
+<section id="license" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="license"><span class="header-section-number">3</span> License</h2>
+<p>Released under the <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> license.</p>
+</section>
+<section id="source" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="source"><span class="header-section-number">4</span> Source</h2>
+<p>The source code for this tutorial is available on <a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision">GitHub</a>. Contributions and issues are welcome.</p>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY 4.0</div></div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -633,11 +600,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./notebooks/nace-rag-tutorial.html" class="pagination-link" aria-label="Tutorial">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./notebooks/nace-rag-tutorial.html" class="pagination-link" aria-label="Tutorial">
-        <span class="nav-page-text">Tutorial</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -645,4 +612,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/edit/main/about.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/blob/main/about.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/AIML4OS/WP10-Cluster5-nace-revision/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
