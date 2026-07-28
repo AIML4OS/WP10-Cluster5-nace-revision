@@ -357,7 +357,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Where to put <code>.env</code>.</strong> If you cloned this repository, put <code>.env</code> at its root. If instead you launched this notebook through the <strong>“Open this tutorial as an interactive notebook”</strong> button above, the notebook runs from <code>/home/onyxia/work</code> (not from inside the cloned repo folder), so create <code>.env</code> directly in <code>/home/onyxia/work</code> — next to the downloaded <code>exercise.ipynb</code> — otherwise <code>load_dotenv()</code> will not find it.</p>
+<p><strong>Where to put <code>.env</code>.</strong> Put <code>.env</code> at the root of this repository — whether you cloned it yourself, or launched it through the <strong>“Open this tutorial as an interactive notebook”</strong> button above (which downloads the notebook straight into the cloned repository folder).</p>
 </div>
 </div>
 <section id="getting-your-llm.lab-api-key" class="level3" data-number="2.2.1">
@@ -369,7 +369,7 @@ Note
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../img/api_llmlab.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Creating an API key on llm.lab"><img src="../img/api_llmlab.png" class="img-fluid figure-img" alt="Creating an API key on llm.lab"></a></p>
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Creating an API key on llm.lab"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png" class="img-fluid figure-img" alt="Creating an API key on llm.lab"></a></p>
 <figcaption>Creating an API key on llm.lab</figcaption>
 </figure>
 </div>
@@ -381,7 +381,7 @@ Note
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../img/qdrant_service.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Creating a Qdrant service on SSPCloud"><img src="../img/qdrant_service.png" class="img-fluid figure-img" alt="Creating a Qdrant service on SSPCloud"></a></p>
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_service.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Creating a Qdrant service on SSPCloud"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_service.png" class="img-fluid figure-img" alt="Creating a Qdrant service on SSPCloud"></a></p>
 <figcaption>Creating a Qdrant service on SSPCloud</figcaption>
 </figure>
 </div>
@@ -390,7 +390,7 @@ Note
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="../img/qdrant_token.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Retrieving the Qdrant token"><img src="../img/qdrant_token.png" class="img-fluid figure-img" alt="Retrieving the Qdrant token"></a></p>
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Retrieving the Qdrant token"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png" class="img-fluid figure-img" alt="Retrieving the Qdrant token"></a></p>
 <figcaption>Retrieving the Qdrant token</figcaption>
 </figure>
 </div>
@@ -750,7 +750,7 @@ Note
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Example:"</span>, annotations[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded 100 (label, reference NACE 2.1 code) pairs
-Example: {'code': '55.30', 'name': 'Camping grounds and recreational vehicle parks', 'label': 'Operation of holiday camping areas'}</code></pre>
+Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real estate', 'label': 'Industrial building rental income'}</code></pre>
 </div>
 </div>
 </section>
@@ -802,48 +802,48 @@ Example: {'code': '55.30', 'name': 'Camping grounds and recreational vehicle par
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>Operation of holiday camping areas</td>
-<td>55.30</td>
-<td>55.30</td>
+<td>Industrial building rental income</td>
+<td>68.20</td>
+<td>68.20</td>
 <td>True</td>
-<td>1.00</td>
-<td>[55.3, 55.2, 55.1, 55.30, 55.9]</td>
+<td>1.0</td>
+<td>[68.2, 68, 68.20, 77.3, 77.5]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>Corporate headquarters activities</td>
-<td>70.10</td>
-<td>70.10</td>
+<td>Space provision for animal care facilities</td>
+<td>68.20</td>
+<td>81.1</td>
 <td>True</td>
-<td>1.00</td>
-<td>[70.1, 70.10, 82.1, 73.3, 70]</td>
+<td>0.7</td>
+<td>[75.0, 91.4, 81.1, 10.9, 01.46]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>Leasehold estate revenue generation</td>
-<td>68.20</td>
-<td>68.2</td>
+<td>End-user device provisioning</td>
+<td>62.90</td>
+<td>63.1</td>
 <td>True</td>
-<td>0.85</td>
-<td>[68.2, 68, 68.3, 77.5, 77.4]</td>
+<td>0.8</td>
+<td>[61.1, 61.9, 63.1, 81.1, 26.3]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>Managed IT services provision</td>
-<td>62.20</td>
-<td>62.2</td>
+<td>Vineyard operations and maintenance</td>
+<td>01.21</td>
+<td>01.21</td>
 <td>True</td>
-<td>0.95</td>
-<td>[62.9, 62.2, 63.1, 95.1, 95.4]</td>
+<td>0.9</td>
+<td>[01.21, 11.02, 01.61, 01.14, 02.1]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>Strategic organizational development services</td>
-<td>70.20</td>
-<td>70.2</td>
+<td>Regulatory compliance for investment funds</td>
+<td>66.30</td>
+<td>66.30</td>
 <td>True</td>
-<td>1.00</td>
-<td>[70.2, 70, 62.2, 62.9, 82.4]</td>
+<td>0.7</td>
+<td>[66.3, 64.31, 66.30, 65.3, 69.1]</td>
 </tr>
 </tbody>
 </table>
@@ -898,17 +898,17 @@ Example: {'code': '55.30', 'name': 'Camping grounds and recreational vehicle par
         RAG RECODIFICATION: NACE 2.1
 ====================================================
   Activities processed         : 100
-  Correctly recoded            : 48  (48.0%)
+  Correctly recoded            : 55  (55.0%)
 
-  Retriever@5 accuracy         : 57.0%
-  LLM accuracy (conditional)   : 84.2%
-  Pipeline accuracy            : 48.0%
+  Retriever@5 accuracy         : 59.0%
+  LLM accuracy (conditional)   : 93.2%
+  Pipeline accuracy            : 55.0%
 
-  Retriever errors             : 43  (43.0%)
-  LLM errors                   : 9  (9.0%)
+  Retriever errors             : 41  (41.0%)
+  LLM errors                   : 4  (4.0%)
 ====================================================
 
-Cross-check: Retriever@k × LLM = 0.570 × 0.842 = 48.0%</code></pre>
+Cross-check: Retriever@k × LLM = 0.590 × 0.932 = 55.0%</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
