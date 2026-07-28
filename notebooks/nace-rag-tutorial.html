@@ -278,6 +278,19 @@ window.Quarto = {
 
 
 <p><strong>Open this tutorial as an interactive notebook</strong>: <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&amp;onyxia.friendlyName=«NACE-RAG-tutorial»&amp;init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&amp;init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&amp;git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&amp;logoColor=white" alt="Onyxia"></a></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Running the cells interactively?</strong> A Python virtual environment has already been created for you (<code>WP10-Cluster5-nace-revision/.venv/bin/python</code>). Click the <strong>kernel selector</strong> in the top-right corner of the notebook and pick that environment before running any cell.</p>
+</div>
+</div>
 <section id="goal-of-this-tutorial" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Goal of this tutorial</h1>
 <p>This tutorial is inspired by subject 2 of the 2026 funathon. See its dedicated website: <a href="https://aiml4os.github.io/funathon-project2/">https://aiml4os.github.io/funathon-project2/</a>.</p>
@@ -750,40 +763,110 @@ Note
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Example:"</span>, annotations[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded 100 (label, reference NACE 2.1 code) pairs
-Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real estate', 'label': 'Industrial building rental income'}</code></pre>
+Example: {'code': '55.10', 'name': 'Hotels and similar accommodation', 'label': 'Commercial lodging for transient guests.'}</code></pre>
+</div>
+</div>
+<div id="annotation-vs-nomenclature-levels" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>code_to_level <span class="op">=</span> {doc.code: doc.level <span class="cf">for</span> doc <span class="kw">in</span> nace_documents}</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>annotation_levels <span class="op">=</span> Counter(code_to_level[row[<span class="st">"code"</span>]] <span class="cf">for</span> row <span class="kw">in</span> annotations)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>nomenclature_levels <span class="op">=</span> Counter(doc.level <span class="cf">for</span> doc <span class="kw">in</span> nace_documents)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"NACE level of the *reference* codes in the evaluation dataset:"</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(annotation_levels.items())))</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">NACE level of the codes indexed in Qdrant (the whole nomenclature):"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(nomenclature_levels.items())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NACE level of the *reference* codes in the evaluation dataset:
+{4: 100}
+
+NACE level of the codes indexed in Qdrant (the whole nomenclature):
+{1: 22, 2: 87, 3: 287, 4: 651}</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>A level mismatch is built into this evaluation.</strong> Every reference code in the evaluation dataset is a <strong>level-4</strong> NACE code (the finest granularity — e.g.&nbsp;<code>01.11</code>), as confirmed above. But the Qdrant collection was built from the <em>entire</em> nomenclature: sections (level 1), divisions (level 2) and groups (level 3) are indexed side by side with the level-4 classes they contain — only 651 of the 1,047 indexed codes (62%) are level 4, the rest are broader parent codes.</p>
+<p>Nothing prevents the retriever from surfacing a level-1/2/3 parent code among the top-k candidates, or the LLM from picking one. When that happens, <code>pipeline_correct</code> in §5 scores it as a plain miss (<code>pred_code != true_code</code>), even though a parent code can be a legitimate, more conservative answer — for instance if the downstream use only requires the level-2 aggregate, or if the free-text description is genuinely too vague to justify a level-4 answer. Whether that should count as an error is a <strong>business-use-case decision</strong>, not something a raw string-equality metric can capture on its own.</p>
+</div>
+</div>
+<div id="single-child-parents" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>children <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> nace_documents:</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> doc.parent_code:</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        children[doc.parent_code].append(doc.code)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>level3_docs <span class="op">=</span> [doc <span class="cf">for</span> doc <span class="kw">in</span> nace_documents <span class="cf">if</span> doc.level <span class="op">==</span> <span class="dv">3</span>]</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>level3_single_child <span class="op">=</span> [doc.code <span class="cf">for</span> doc <span class="kw">in</span> level3_docs <span class="cf">if</span> <span class="bu">len</span>(children.get(doc.code, [])) <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(level3_single_child)<span class="sc">}</span><span class="ss"> / </span><span class="sc">{</span><span class="bu">len</span>(level3_docs)<span class="sc">}</span><span class="ss"> level-3 codes have exactly one level-4 child"</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Examples:"</span>, level3_single_child[:<span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>143 / 287 level-3 codes have exactly one level-4 child
+Examples: ['01.3', '01.5', '01.7', '02.1', '02.2']</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Some “parent vs.&nbsp;child” mismatches are not mismatches at all.</strong> As shown above, <strong>143 of the 287 level-3 codes (50%) have exactly one level-4 child</strong> — e.g.&nbsp;<code>01.3</code> only ever expands to <code>01.30</code>. For these, the level-3 code and its level-4 child denote the <em>same</em> real-world activity: predicting the parent is not an approximation, it is the right answer written one level up.</p>
+<p>Counting these as pipeline errors artificially deflates the accuracy figures below. Before trusting an aggregate accuracy number for a use case where this matters, prune the nomenclature and/or the predicted codes: collapse parent codes with a single descendant onto that descendant (or, symmetrically, treat a prediction as correct whenever it is an ancestor of the true code <em>and</em> that ancestor has no other level-4 descendant). This tutorial does not implement that pruning — the metrics in §5 use plain string equality — but keep this caveat in mind when reading the results.</p>
 </div>
 </div>
 </section>
 <section id="batch-inference-on-the-sample" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="batch-inference-on-the-sample"><span class="header-section-number">4.4</span> Batch inference on the sample</h2>
-<div id="cell-batch-inference" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> tqdm(annotations, desc<span class="op">=</span><span class="st">"Recoding"</span>, unit<span class="op">=</span><span class="st">"label"</span>):</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> run_rag_pipeline(row[<span class="st">"label"</span>])</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> {<span class="st">"nace_code"</span>: <span class="va">None</span>, <span class="st">"codable"</span>: <span class="va">False</span>, <span class="st">"confidence"</span>: <span class="fl">0.0</span>, <span class="st">"retrieved_codes"</span>: []}</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        tqdm.write(<span class="ss">f"⚠ Error on '</span><span class="sc">{</span>row[<span class="st">'label'</span>][:<span class="dv">60</span>]<span class="sc">}</span><span class="ss">...': </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    records.append({</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"activity"</span>: row[<span class="st">"label"</span>],</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"true_code"</span>: row[<span class="st">"code"</span>],</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred_code"</span>: pred.get(<span class="st">"nace_code"</span>),</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codable"</span>: pred.get(<span class="st">"codable"</span>, <span class="va">False</span>),</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"confidence"</span>: pred.get(<span class="st">"confidence"</span>, <span class="fl">0.0</span>),</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"retrieved_codes"</span>: pred.get(<span class="st">"retrieved_codes"</span>, []),</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(records)</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(results)<span class="sc">}</span><span class="ss"> activities processed"</span>)</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>results.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-batch-inference" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> tqdm(annotations, desc<span class="op">=</span><span class="st">"Recoding"</span>, unit<span class="op">=</span><span class="st">"label"</span>):</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> run_rag_pipeline(row[<span class="st">"label"</span>])</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> {<span class="st">"nace_code"</span>: <span class="va">None</span>, <span class="st">"codable"</span>: <span class="va">False</span>, <span class="st">"confidence"</span>: <span class="fl">0.0</span>, <span class="st">"retrieved_codes"</span>: []}</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        tqdm.write(<span class="ss">f"⚠ Error on '</span><span class="sc">{</span>row[<span class="st">'label'</span>][:<span class="dv">60</span>]<span class="sc">}</span><span class="ss">...': </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    records.append({</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"activity"</span>: row[<span class="st">"label"</span>],</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"true_code"</span>: row[<span class="st">"code"</span>],</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred_code"</span>: pred.get(<span class="st">"nace_code"</span>),</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codable"</span>: pred.get(<span class="st">"codable"</span>, <span class="va">False</span>),</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"confidence"</span>: pred.get(<span class="st">"confidence"</span>, <span class="fl">0.0</span>),</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"retrieved_codes"</span>: pred.get(<span class="st">"retrieved_codes"</span>, []),</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(records)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(results)<span class="sc">}</span><span class="ss"> activities processed"</span>)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>results.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>⚠ Error on 'Cybersecurity vulnerability assessments...': Request timed out.</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 100 activities processed</code></pre>
 </div>
-<div id="batch-inference" class="cell-output cell-output-display" data-execution_count="11">
+<div id="batch-inference" class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -802,48 +885,48 @@ Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real e
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>Industrial building rental income</td>
-<td>68.20</td>
-<td>68.20</td>
+<td>Commercial lodging for transient guests.</td>
+<td>55.10</td>
+<td>55.1</td>
 <td>True</td>
-<td>1.0</td>
-<td>[68.2, 68, 68.20, 77.3, 77.5]</td>
+<td>0.9</td>
+<td>[55.1, 55.2, 55.9, 55.4, 55]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>Space provision for animal care facilities</td>
-<td>68.20</td>
-<td>81.1</td>
+<td>Specialized land-based animal raising</td>
+<td>01.48</td>
+<td>01.4</td>
 <td>True</td>
-<td>0.7</td>
-<td>[75.0, 91.4, 81.1, 10.9, 01.46]</td>
+<td>0.9</td>
+<td>[01.4, 01.46, 01.44, 01.42, 01.5]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>End-user device provisioning</td>
-<td>62.90</td>
-<td>63.1</td>
+<td>Risk management intermediary activities</td>
+<td>66.22</td>
+<td>66</td>
 <td>True</td>
-<td>0.8</td>
-<td>[61.1, 61.9, 63.1, 81.1, 26.3]</td>
+<td>0.9</td>
+<td>[66.3, 96.4, 66, 77.5, 68]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>Vineyard operations and maintenance</td>
-<td>01.21</td>
-<td>01.21</td>
+<td>Professional licensing exam administration</td>
+<td>85.69</td>
+<td>85.69</td>
 <td>True</td>
-<td>0.9</td>
-<td>[01.21, 11.02, 01.61, 01.14, 02.1]</td>
+<td>1.0</td>
+<td>[82.1, 74.9, 85.69, 74.3, N]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>Regulatory compliance for investment funds</td>
-<td>66.30</td>
-<td>66.30</td>
+<td>Database application programming</td>
+<td>62.10</td>
+<td>62.10</td>
 <td>True</td>
-<td>0.7</td>
-<td>[66.3, 64.31, 66.30, 65.3, 69.1]</td>
+<td>1.0</td>
+<td>[62.1, 62.10, 62.9, 63.1, 62.2]</td>
 </tr>
 </tbody>
 </table>
@@ -857,58 +940,58 @@ Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real e
 <h1 data-number="5"><span class="header-section-number">5</span> Evaluation</h1>
 <p>End-to-end accuracy decomposes into a retriever contribution and an LLM contribution. If the correct code is not in the top-k, the LLM cannot recover it, so the retriever sets the pipeline’s theoretical ceiling.</p>
 <p><span class="math display">\[\text{Pipeline accuracy} = \text{Retriever@k} \times \text{LLM accuracy (conditional on retrieval)}\]</span></p>
-<div id="eval-columns" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"retriever_hit"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"true_code"</span>] <span class="kw">in</span> row[<span class="st">"retrieved_codes"</span>], axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"pipeline_correct"</span>] <span class="op">=</span> results[<span class="st">"pred_code"</span>] <span class="op">==</span> results[<span class="st">"true_code"</span>]</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"llm_correct_given_retriever"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"pipeline_correct"</span>] <span class="cf">if</span> row[<span class="st">"retriever_hit"</span>] <span class="cf">else</span> <span class="va">None</span>, axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="eval-columns" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"retriever_hit"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"true_code"</span>] <span class="kw">in</span> row[<span class="st">"retrieved_codes"</span>], axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"pipeline_correct"</span>] <span class="op">=</span> results[<span class="st">"pred_code"</span>] <span class="op">==</span> results[<span class="st">"true_code"</span>]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"llm_correct_given_retriever"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"pipeline_correct"</span>] <span class="cf">if</span> row[<span class="st">"retriever_hit"</span>] <span class="cf">else</span> <span class="va">None</span>, axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="eval-metrics" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>n_total <span class="op">=</span> <span class="bu">len</span>(results)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>retriever_accuracy <span class="op">=</span> results[<span class="st">"retriever_hit"</span>].mean()</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>llm_accuracy <span class="op">=</span> results.loc[results[<span class="st">"retriever_hit"</span>], <span class="st">"pipeline_correct"</span>].mean()</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>pipeline_accuracy <span class="op">=</span> results[<span class="st">"pipeline_correct"</span>].mean()</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>n_retriever_miss <span class="op">=</span> (<span class="op">~</span>results[<span class="st">"retriever_hit"</span>]).<span class="bu">sum</span>()</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>n_llm_miss <span class="op">=</span> (results[<span class="st">"retriever_hit"</span>] <span class="op">&amp;</span> <span class="op">~</span>results[<span class="st">"pipeline_correct"</span>]).<span class="bu">sum</span>()</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>n_correct <span class="op">=</span> <span class="bu">int</span>(results[<span class="st">"pipeline_correct"</span>].<span class="bu">sum</span>())</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"        RAG RECODIFICATION: NACE 2.1"</span>)</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Activities processed         : </span><span class="sc">{</span>n_total<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Correctly recoded            : </span><span class="sc">{</span>n_correct<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever@</span><span class="sc">{</span>RETRIEVER_LIMIT<span class="sc">}</span><span class="ss"> accuracy         : </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM accuracy (conditional)   : </span><span class="sc">{</span>llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Pipeline accuracy            : </span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever errors             : </span><span class="sc">{</span>n_retriever_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_retriever_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM errors                   : </span><span class="sc">{</span>n_llm_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_llm_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="ch">\n</span><span class="ss">Cross-check: Retriever@k × LLM = </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.3f}</span><span class="ss"> × </span><span class="sc">{</span>llm_accuracy<span class="sc">:.3f}</span><span class="ss">"</span></span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f" = </span><span class="sc">{</span>retriever_accuracy <span class="op">*</span> llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span></span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="eval-metrics" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>n_total <span class="op">=</span> <span class="bu">len</span>(results)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>retriever_accuracy <span class="op">=</span> results[<span class="st">"retriever_hit"</span>].mean()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>llm_accuracy <span class="op">=</span> results.loc[results[<span class="st">"retriever_hit"</span>], <span class="st">"pipeline_correct"</span>].mean()</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>pipeline_accuracy <span class="op">=</span> results[<span class="st">"pipeline_correct"</span>].mean()</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>n_retriever_miss <span class="op">=</span> (<span class="op">~</span>results[<span class="st">"retriever_hit"</span>]).<span class="bu">sum</span>()</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>n_llm_miss <span class="op">=</span> (results[<span class="st">"retriever_hit"</span>] <span class="op">&amp;</span> <span class="op">~</span>results[<span class="st">"pipeline_correct"</span>]).<span class="bu">sum</span>()</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>n_correct <span class="op">=</span> <span class="bu">int</span>(results[<span class="st">"pipeline_correct"</span>].<span class="bu">sum</span>())</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"        RAG RECODIFICATION: NACE 2.1"</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Activities processed         : </span><span class="sc">{</span>n_total<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Correctly recoded            : </span><span class="sc">{</span>n_correct<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever@</span><span class="sc">{</span>RETRIEVER_LIMIT<span class="sc">}</span><span class="ss"> accuracy         : </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM accuracy (conditional)   : </span><span class="sc">{</span>llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Pipeline accuracy            : </span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever errors             : </span><span class="sc">{</span>n_retriever_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_retriever_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM errors                   : </span><span class="sc">{</span>n_llm_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_llm_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="ch">\n</span><span class="ss">Cross-check: Retriever@k × LLM = </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.3f}</span><span class="ss"> × </span><span class="sc">{</span>llm_accuracy<span class="sc">:.3f}</span><span class="ss">"</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f" = </span><span class="sc">{</span>retriever_accuracy <span class="op">*</span> llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>====================================================
         RAG RECODIFICATION: NACE 2.1
 ====================================================
   Activities processed         : 100
-  Correctly recoded            : 55  (55.0%)
+  Correctly recoded            : 42  (42.0%)
 
-  Retriever@5 accuracy         : 59.0%
-  LLM accuracy (conditional)   : 93.2%
-  Pipeline accuracy            : 55.0%
+  Retriever@5 accuracy         : 46.0%
+  LLM accuracy (conditional)   : 91.3%
+  Pipeline accuracy            : 42.0%
 
-  Retriever errors             : 41  (41.0%)
+  Retriever errors             : 54  (54.0%)
   LLM errors                   : 4  (4.0%)
 ====================================================
 
-Cross-check: Retriever@k × LLM = 0.590 × 0.932 = 55.0%</code></pre>
+Cross-check: Retriever@k × LLM = 0.460 × 0.913 = 42.0%</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -927,48 +1010,48 @@ Note
 <section id="precisioncoverage-trade-off" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="precisioncoverage-trade-off"><span class="header-section-number">5.1</span> Precision–coverage trade-off</h2>
 <p>The LLM returns a confidence score. Filtering on it raises precision but lowers coverage (more labels left for manual review).</p>
-<div id="precision-coverage" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    ggplot, aes, geom_boxplot, geom_line, geom_point,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    scale_color_manual, scale_linetype_manual, labs, theme_minimal,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>results_plot <span class="op">=</span> results.assign(</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    correctness<span class="op">=</span>results[<span class="st">"pipeline_correct"</span>].<span class="bu">map</span>({<span class="va">False</span>: <span class="st">"Incorrect"</span>, <span class="va">True</span>: <span class="st">"Correct"</span>})</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> (</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    ggplot(results_plot, aes(x<span class="op">=</span><span class="st">"correctness"</span>, y<span class="op">=</span><span class="st">"confidence"</span>))</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_boxplot()</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Confidence by pipeline correctness"</span>, x<span class="op">=</span><span class="st">"Prediction correct"</span>, y<span class="op">=</span><span class="st">"Confidence"</span>)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme_minimal()</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> [i <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]:</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> results[results[<span class="st">"confidence"</span>] <span class="op">&gt;=</span> t]</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Precision"</span>, <span class="st">"value"</span>: subset[<span class="st">"pipeline_correct"</span>].mean()})</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Coverage"</span>,  <span class="st">"value"</span>: <span class="bu">len</span>(subset) <span class="op">/</span> <span class="bu">len</span>(results)})</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>df_thresh <span class="op">=</span> pd.DataFrame(rows, columns<span class="op">=</span>[<span class="st">"threshold"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>])</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>display(p1)</span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df_thresh.empty:</span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No confidence threshold yielded a non-empty subset; skipping precision/coverage plot."</span>)</span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>    p2 <span class="op">=</span> (</span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>        ggplot(df_thresh, aes(x<span class="op">=</span><span class="st">"threshold"</span>, y<span class="op">=</span><span class="st">"value"</span>, color<span class="op">=</span><span class="st">"metric"</span>, linetype<span class="op">=</span><span class="st">"metric"</span>))</span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> geom_line() <span class="op">+</span> geom_point()</span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_color_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"steelblue"</span>, <span class="st">"Coverage"</span>: <span class="st">"coral"</span>})</span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_linetype_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"solid"</span>, <span class="st">"Coverage"</span>: <span class="st">"dashed"</span>})</span>
-<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Precision and coverage vs. confidence threshold"</span>,</span>
-<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>               x<span class="op">=</span><span class="st">"Confidence threshold"</span>, y<span class="op">=</span><span class="st">"Value"</span>, color<span class="op">=</span><span class="st">""</span>, linetype<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> theme_minimal()</span>
-<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>    display(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="precision-coverage" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    ggplot, aes, geom_boxplot, geom_line, geom_point,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    scale_color_manual, scale_linetype_manual, labs, theme_minimal,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>results_plot <span class="op">=</span> results.assign(</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    correctness<span class="op">=</span>results[<span class="st">"pipeline_correct"</span>].<span class="bu">map</span>({<span class="va">False</span>: <span class="st">"Incorrect"</span>, <span class="va">True</span>: <span class="st">"Correct"</span>})</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> (</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    ggplot(results_plot, aes(x<span class="op">=</span><span class="st">"correctness"</span>, y<span class="op">=</span><span class="st">"confidence"</span>))</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_boxplot()</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Confidence by pipeline correctness"</span>, x<span class="op">=</span><span class="st">"Prediction correct"</span>, y<span class="op">=</span><span class="st">"Confidence"</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme_minimal()</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> [i <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]:</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> results[results[<span class="st">"confidence"</span>] <span class="op">&gt;=</span> t]</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Precision"</span>, <span class="st">"value"</span>: subset[<span class="st">"pipeline_correct"</span>].mean()})</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Coverage"</span>,  <span class="st">"value"</span>: <span class="bu">len</span>(subset) <span class="op">/</span> <span class="bu">len</span>(results)})</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>df_thresh <span class="op">=</span> pd.DataFrame(rows, columns<span class="op">=</span>[<span class="st">"threshold"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>])</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>display(p1)</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df_thresh.empty:</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No confidence threshold yielded a non-empty subset; skipping precision/coverage plot."</span>)</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>    p2 <span class="op">=</span> (</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>        ggplot(df_thresh, aes(x<span class="op">=</span><span class="st">"threshold"</span>, y<span class="op">=</span><span class="st">"value"</span>, color<span class="op">=</span><span class="st">"metric"</span>, linetype<span class="op">=</span><span class="st">"metric"</span>))</span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> geom_line() <span class="op">+</span> geom_point()</span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_color_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"steelblue"</span>, <span class="st">"Coverage"</span>: <span class="st">"coral"</span>})</span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_linetype_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"solid"</span>, <span class="st">"Coverage"</span>: <span class="st">"dashed"</span>})</span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Precision and coverage vs. confidence threshold"</span>,</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>               x<span class="op">=</span><span class="st">"Confidence threshold"</span>, y<span class="op">=</span><span class="st">"Value"</span>, color<span class="op">=</span><span class="st">""</span>, linetype<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> theme_minimal()</span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>    display(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
