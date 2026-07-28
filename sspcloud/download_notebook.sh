@@ -14,7 +14,8 @@ NOTEBOOK_DOWNLOAD_URL="${GH_PAGES_WEBSITE}/${NOTEBOOK_PATH}"
 
 echo $NOTEBOOK_DOWNLOAD_URL
 
-# Download the notebook directly using curl
+# Download the notebook directly using curl, straight into the cloned repository
+# folder (so relative paths for images / .venv / .env all match local development)
 WORK_DIR="/home/onyxia/work"
 echo $NOTEBOOK_DOWNLOAD_URL
-curl -L $NOTEBOOK_DOWNLOAD_URL -o "${WORK_DIR}/exercise.ipynb"
+curl -fL $NOTEBOOK_DOWNLOAD_URL -o "${WORK_DIR}/${MY_REPO}/exercise.ipynb"

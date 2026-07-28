@@ -214,3 +214,6 @@ __marimo__/
 *.html
 
 **/*.quarto_ipynb
+
+# Downloaded by sspcloud/download_notebook.sh when launching the interactive service
+/exercise.ipynb

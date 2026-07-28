@@ -71,7 +71,7 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 :::
 
 ::: {.callout-note}
-**Where to put `.env`.** If you cloned this repository, put `.env` at its root. If instead you launched this notebook through the **"Open this tutorial as an interactive notebook"** button above, the notebook runs from `/home/onyxia/work` (not from inside the cloned repo folder), so create `.env` directly in `/home/onyxia/work` — next to the downloaded `exercise.ipynb` — otherwise `load_dotenv()` will not find it.
+**Where to put `.env`.** Put `.env` at the root of this repository — whether you cloned it yourself, or launched it through the **"Open this tutorial as an interactive notebook"** button above (which downloads the notebook straight into the cloned repository folder).
 :::
 
 ### Getting your llm.lab API key
@@ -80,17 +80,17 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 2. Open **Settings** (top right) → **Account** → **API Keys**.
 3. Generate a new key and copy it into `LLMLAB_API_KEY`.
 
-![Creating an API key on llm.lab](../img/api_llmlab.png)
+![Creating an API key on llm.lab](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png)
 
 ### Getting your Qdrant credentials
 
 1. Launch a **Qdrant** service in your personal SSPCloud namespace.
 
-![Creating a Qdrant service on SSPCloud](../img/qdrant_service.png)
+![Creating a Qdrant service on SSPCloud](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_service.png)
 
 2. Copy the generated token and save it as `QDRANT_API_KEY`. The URL follows the pattern `https://YOURNAMESPACE-qdrant.user.lab.sspcloud.fr/`.
 
-![Retrieving the Qdrant token](../img/qdrant_token.png)
+![Retrieving the Qdrant token](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png)
 
 ## Loading credentials in Python
 

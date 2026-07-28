@@ -24,7 +24,9 @@ one-click "launch as an interactive notebook" button.
 
 Click the **"Launch with VSCode"** button on the [published site](https://aiml4os.github.io/WP10-Cluster5-nace-revision/)
 to open a ready-to-use VS Code service on SSPCloud: it clones this repository, runs `uv sync`, and
-downloads the tutorial as a runnable Jupyter notebook (`exercise.ipynb`) in `/home/onyxia/work`.
+downloads the tutorial as a runnable Jupyter notebook (`exercise.ipynb`) straight into the cloned
+repository folder — right next to `.venv`, `img/`, and where you should put your `.env` file, exactly
+as in local development.
 The notebook ships without pre-computed outputs — you run it yourself with your own Qdrant / llm.lab
 credentials (see the "Credentials" section of the tutorial for where to put your `.env` file).
 
