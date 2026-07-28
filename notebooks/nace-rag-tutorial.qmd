@@ -9,6 +9,10 @@ execute:
 
 __Open this tutorial as an interactive notebook__: <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&onyxia.friendlyName=«NACE-RAG-tutorial»&init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&logoColor=white" alt="Onyxia"></a>
 
+::: {.callout-tip}
+**Running the cells interactively?** A Python virtual environment has already been created for you (`WP10-Cluster5-nace-revision/.venv/bin/python`). Click the **kernel selector** in the top-right corner of the notebook and pick that environment before running any cell.
+:::
+
 # Goal of this tutorial
 
 This tutorial is inspired by subject 2 of the 2026 funathon. See its dedicated website: [https://aiml4os.github.io/funathon-project2/](https://aiml4os.github.io/funathon-project2/).
@@ -448,6 +452,54 @@ annotations = con.sql(f"""
 print(f"Loaded {len(annotations)} (label, reference NACE 2.1 code) pairs")
 print("Example:", annotations[0])
 ```
+
+```{python}
+#| label: annotation-vs-nomenclature-levels
+#| output: true
+
+from collections import Counter
+
+code_to_level = {doc.code: doc.level for doc in nace_documents}
+
+annotation_levels = Counter(code_to_level[row["code"]] for row in annotations)
+nomenclature_levels = Counter(doc.level for doc in nace_documents)
+
+print("NACE level of the *reference* codes in the evaluation dataset:")
+print(dict(sorted(annotation_levels.items())))
+
+print("\nNACE level of the codes indexed in Qdrant (the whole nomenclature):")
+print(dict(sorted(nomenclature_levels.items())))
+```
+
+::: {.callout-important}
+**A level mismatch is built into this evaluation.** Every reference code in the evaluation dataset is a **level-4** NACE code (the finest granularity — e.g. `01.11`), as confirmed above. But the Qdrant collection was built from the *entire* nomenclature: sections (level 1), divisions (level 2) and groups (level 3) are indexed side by side with the level-4 classes they contain — only 651 of the 1,047 indexed codes (62%) are level 4, the rest are broader parent codes.
+
+Nothing prevents the retriever from surfacing a level-1/2/3 parent code among the top-k candidates, or the LLM from picking one. When that happens, `pipeline_correct` in §5 scores it as a plain miss (`pred_code != true_code`), even though a parent code can be a legitimate, more conservative answer — for instance if the downstream use only requires the level-2 aggregate, or if the free-text description is genuinely too vague to justify a level-4 answer. Whether that should count as an error is a **business-use-case decision**, not something a raw string-equality metric can capture on its own.
+:::
+
+```{python}
+#| label: single-child-parents
+#| output: true
+
+from collections import defaultdict
+
+children = defaultdict(list)
+for doc in nace_documents:
+    if doc.parent_code:
+        children[doc.parent_code].append(doc.code)
+
+level3_docs = [doc for doc in nace_documents if doc.level == 3]
+level3_single_child = [doc.code for doc in level3_docs if len(children.get(doc.code, [])) == 1]
+
+print(f"{len(level3_single_child)} / {len(level3_docs)} level-3 codes have exactly one level-4 child")
+print("Examples:", level3_single_child[:5])
+```
+
+::: {.callout-important}
+**Some "parent vs. child" mismatches are not mismatches at all.** As shown above, **143 of the 287 level-3 codes (50%) have exactly one level-4 child** — e.g. `01.3` only ever expands to `01.30`. For these, the level-3 code and its level-4 child denote the *same* real-world activity: predicting the parent is not an approximation, it is the right answer written one level up.
+
+Counting these as pipeline errors artificially deflates the accuracy figures below. Before trusting an aggregate accuracy number for a use case where this matters, prune the nomenclature and/or the predicted codes: collapse parent codes with a single descendant onto that descendant (or, symmetrically, treat a prediction as correct whenever it is an ancestor of the true code *and* that ancestor has no other level-4 descendant). This tutorial does not implement that pruning — the metrics in §5 use plain string equality — but keep this caveat in mind when reading the results.
+:::
 
 ## Batch inference on the sample
 
