@@ -546,6 +546,13 @@ End-to-end accuracy decomposes into a retriever contribution and an LLM contribu
 
 $$\text{Pipeline accuracy} = \text{Retriever@k} \times \text{LLM accuracy (conditional on retrieval)}$$
 
+::: {.callout-tip}
+**Why does multiplying the two terms give back the pipeline accuracy?** `pipeline_correct` can only be `True` when `retriever_hit` is already `True` — the LLM is never shown a code the retriever failed to surface. So **Retriever@k** (hit rate over *all* activities) and **LLM accuracy** (correct rate over *only* the retriever's hits) are exactly $P(A)$ and $P(B \mid A)$, and their product is the chain rule, $P(A \cap B)$ — the plain pipeline accuracy, not an approximation of it (see the "Cross-check" line above).
+
+Concretely: retriever hits 80% of the time, LLM then picks correctly 90% of *those*, so the pipeline is right at most 80% × 90% = 72% of the time — never above the retriever's own ceiling.
+:::
+
+
 ```{python}
 #| label: eval-columns
 
@@ -589,6 +596,7 @@ print(
     f" = {retriever_accuracy * llm_accuracy:.1%}"
 )
 ```
+
 
 ::: {.callout-note}
 **Reading the error decomposition.** If retriever errors dominate, the embedding model, top-`k`, or the indexed text are the bottleneck. If LLM errors dominate, the prompt, the generative model, or the temperature should be revisited first.
