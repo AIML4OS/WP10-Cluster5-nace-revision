@@ -10,7 +10,14 @@ execute:
 __Open this tutorial as an interactive notebook__: <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&onyxia.friendlyName=«NACE-RAG-tutorial»&init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&logoColor=white" alt="Onyxia"></a>
 
 ::: {.callout-tip}
-**Running the cells interactively?** A Python virtual environment has already been created for you (`WP10-Cluster5-nace-revision/.venv/bin/python`). Click the **kernel selector** in the top-right corner of the notebook and pick that environment before running any cell.
+**Running the cells interactively?** A Python virtual environment has already been created for you (`WP10-Cluster5-nace-revision/.venv/bin/python`). 
+
+How to make it ?
+
+- Click the black and blue button to lauch the interactive VSCode service
+- Open the following file: "WP10-Cluster5-nace-revision/notebooks/nace-rag-tutorial.qmd"
+- Scroll down to the first code cell and run it ("Run Cell" button or Ctrl+Enter shortcut) 
+
 :::
 
 # Goal of this tutorial
@@ -80,8 +87,8 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 
 ### Getting your llm.lab API key
 
-1. Go to the llm.lab interface and sign in with your SSPCloud account.
-2. Open **Settings** (top right) → **Account** → **API Keys**.
+1. Go to the [llm.lab](https://llm.lab.sspcloud.fr/) interface and sign in with your SSPCloud account (use the previous link or click the upper-right button "AI Chat" from SSPCloud's web page).
+2. Open **Settings** (down left) → **Account** → **API Keys**.
 3. Generate a new key and copy it into `LLMLAB_API_KEY`.
 
 ![Creating an API key on llm.lab](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png)
@@ -503,6 +510,8 @@ Counting these as pipeline errors artificially deflates the accuracy figures bel
 
 ## Batch inference on the sample
 
+The loop below calls `run_rag_pipeline` sequentially on each activity label of the sampled evaluation set, catching per-row errors so a single failed call does not stop the whole batch, and collects every prediction into a `pandas` DataFrame used for scoring in §5.
+
 ```{python}
 #| label: batch-inference
 #| output: true
@@ -536,6 +545,13 @@ results.head()
 End-to-end accuracy decomposes into a retriever contribution and an LLM contribution. If the correct code is not in the top-k, the LLM cannot recover it, so the retriever sets the pipeline's theoretical ceiling.
 
 $$\text{Pipeline accuracy} = \text{Retriever@k} \times \text{LLM accuracy (conditional on retrieval)}$$
+
+::: {.callout-tip}
+**Why does multiplying the two terms give back the pipeline accuracy?** `pipeline_correct` can only be `True` when `retriever_hit` is already `True` — the LLM is never shown a code the retriever failed to surface. So **Retriever@k** (hit rate over *all* activities) and **LLM accuracy** (correct rate over *only* the retriever's hits) are exactly $P(A)$ and $P(B \mid A)$, and their product is the chain rule, $P(A \cap B)$ — the plain pipeline accuracy, not an approximation of it (see the "Cross-check" line above).
+
+Concretely: retriever hits 80% of the time, LLM then picks correctly 90% of *those*, so the pipeline is right at most 80% × 90% = 72% of the time — never above the retriever's own ceiling.
+:::
+
 
 ```{python}
 #| label: eval-columns
@@ -580,6 +596,7 @@ print(
     f" = {retriever_accuracy * llm_accuracy:.1%}"
 )
 ```
+
 
 ::: {.callout-note}
 **Reading the error decomposition.** If retriever errors dominate, the embedding model, top-`k`, or the indexed text are the bottleneck. If LLM errors dominate, the prompt, the generative model, or the temperature should be revisited first.
