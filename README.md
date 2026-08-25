@@ -1,44 +1,64 @@
-# WP10 — NACE recodification with RAG
-
-A reproducible Retrieval-Augmented Generation (RAG) pipeline for recoding free-text descriptions of economic activities into NACE 2.1, running end-to-end on SSPCloud.
+# WP10 - NACE Recodification with RAG
 
 **Published site:** https://aiml4os.github.io/WP10-Cluster5-nace-revision/
 
-Inspired by [subject 2 of the 2026 funathon](https://aiml4os.github.io/funathon-project2/).
+## Goal
 
-This repository follows the conventions of the
-[AIML4OS training-material-starting-pack](https://github.com/AIML4OS/training-material-starting-pack):
-a multi-page Quarto website (`index.qmd` / `notebooks/nace-rag-tutorial.qmd` / `about.qmd`) and a
-one-click "launch as an interactive notebook" button.
+This repository aims to provide a reproducible Retrieval-Augmented Generation (RAG) pipeline for recoding free-text descriptions of economic activities into the new NACE rev2.1 nomenclature, running end-to-end on SSPCloud. It is inspired by [subject 2 of the 2026 AIML4OS funathon](https://aiml4os.github.io/funathon-project2/), and shows every step of the pipeline with working code, without question/answer scaffolding.
 
-## Structure
+This work was carried out within Work Package 10 "Text-to-Code" (WP10) of the AIML4OS project, and more specifically within Cluster 5 (classification revisions).
 
-- `index.qmd` — landing page, with the autolaunch button.
-- `notebooks/nace-rag-tutorial.qmd` — the tutorial itself. Rendered to **both** an HTML page (for
-  the site) and a downloadable `.ipynb` (for interactive use), from the same source file.
+WP10 aims to explore and apply AI/ML methodologies to enhance the accuracy and efficiency of classification and coding processes used by National Statistical Institutes (NSIs).
+
+You can find more information about WP10 on the [CROS website](https://cros.ec.europa.eu/book-page/aiml4os-wp10-text-code-experiences-and-potential-use-aiml-classifying-and-coding), its [GitHub Repository](https://github.com/AIML4OS/WP10) and its [dedicated GitHub Pages](https://aiml4os.github.io/WP10/).
+
+## Pipeline Overview
+
+The pipeline has two stages:
+
+1. **Build the vector database once**: `Raw NACE 2.1 -> NaceDocument -> Embedding -> Qdrant collection`.
+2. **Query the vector database for each activity label, then score the pipeline**: `Activity label -> Embed -> Retrieve top-k (from Qdrant) -> Build prompt -> LLM JSON output -> Evaluation metrics`.
+
+It relies on three services: a **Qdrant** vector database for retrieval, the **llm.lab** gateway (OpenAI-compatible) for embeddings and generation, and **S3 / MinIO** for the source data. The same recipe applies to any statistical nomenclature or controlled vocabulary, and to any environment that exposes an OpenAI-compatible LLM endpoint and a Qdrant instance.
+
+This is already documented step by step on our GitHub Pages site, see **[the full tutorial](https://aiml4os.github.io/WP10-Cluster5-nace-revision/notebooks/nace-rag-tutorial.html)** to avoid duplication here.
+
+## Code Structure
+
+This repository is built as a multi-page Quarto website, following the conventions of the [AIML4OS training-material-starting-pack](https://github.com/AIML4OS/training-material-starting-pack):
+
+- `index.qmd` — landing page, with the metadata used by the AIML4OS catalog and the "launch as an interactive notebook" button.
+- `notebooks/nace-rag-tutorial.qmd` — the tutorial itself. Rendered to **both** an HTML page (for the site) and a downloadable `.ipynb` (for interactive use), from the same source file.
 - `about.qmd` — credits and license.
-- `sspcloud/` — scripts used by the "launch as an interactive notebook" button (environment setup +
-  notebook download) when opening a VS Code service on SSPCloud.
+- `sspcloud/` — scripts used by the "launch as an interactive notebook" button when opening a VS Code service on SSPCloud (`init-trainees.sh` orchestrates `restore_environment.sh` for the Python environment and `download_notebook.sh` for the notebook download).
+- `img/`, `resources/` — images and assets used across the site.
+- `_quarto.yaml`, `_brand.yml`, `styles.css`, `export-metadata.lua` — Quarto project configuration, theming, and metadata export used to build `metadata.json`.
+- `.github/workflows/publish.yaml` — CI that renders the site and pushes it to the `gh-pages` branch on every push to `main`.
 
-## Try it interactively
-
-Click the **"Launch with VSCode"** button on the [published site](https://aiml4os.github.io/WP10-Cluster5-nace-revision/)
-to open a ready-to-use VS Code service on SSPCloud: it clones this repository, runs `uv sync`, and
-downloads the tutorial as a runnable Jupyter notebook (`exercise.ipynb`) straight into the cloned
-repository folder — right next to `.venv`, `img/`, and where you should put your `.env` file, exactly
-as in local development.
-The notebook ships without pre-computed outputs — you run it yourself with your own Qdrant / llm.lab
-credentials (see the "Credentials" section of the tutorial for where to put your `.env` file).
-
-## Local rendering
+To render the site locally:
 
 ```bash
 uv sync
 uv run quarto preview
 ```
 
-Requires a `.env` file at the repo root with `QDRANT_URL`, `QDRANT_API_KEY`, `QDRANT_API_PORT`, `LLMLAB_URL`, `LLMLAB_API_KEY`.
+This requires a `.env` file at the repo root with `QDRANT_URL`, `QDRANT_API_KEY`, `QDRANT_API_PORT`, `LLMLAB_URL`, `LLMLAB_API_KEY` (see the "Credentials" section of the tutorial).
 
-## Deployment
+## Runnable Example
 
-The site is rebuilt and pushed to the `gh-pages` branch by `.github/workflows/publish.yaml` on every push to `main`. A single `quarto render` produces both the HTML site and `notebooks/nace-rag-tutorial.ipynb`, thanks to the `html` + `ipynb` formats declared in `_quarto.yaml`.
+This repository follows the AIML4OS template provided by the Work Package 6.
+
+It demonstrates the work carried out within WP10 and its cluster through a runnable example, linked to an SSP-Cloud service with a toy dataset and all dependencies preconfigured.
+
+The toy dataset is the activity-label evaluation set reused as-is from [funathon-project2](https://github.com/AIML4OS/funathon-project2): short English free-text descriptions of economic activities, each paired with a reference NACE 2.1 code, generated by an agentic AI system at low temperature. It is used to score the pipeline end-to-end (retriever accuracy, LLM accuracy conditional on retrieval, pipeline accuracy) — see §5 of the tutorial.
+
+The runnable example can be accessed here: click the **"Launch with VSCode"** button on the [published site](https://aiml4os.github.io/WP10-Cluster5-nace-revision/). It opens a ready-to-use VS Code service on SSP Cloud that clones this repository, installs the Python environment (`uv sync`), and downloads the tutorial as a runnable Jupyter notebook (`exercise.ipynb`) straight into the cloned repository folder — right next to `.venv`, `img/`, and where you should put your own `.env` file with your Qdrant / llm.lab credentials.
+
+## Useful Documentation and Links
+
+- [Full tutorial (HTML)](https://aiml4os.github.io/WP10-Cluster5-nace-revision/notebooks/nace-rag-tutorial.html)
+- [funathon-project2](https://aiml4os.github.io/funathon-project2/) — the more pedagogical, question/answer-driven version of this use case
+- [AIML4OS training-material-starting-pack](https://github.com/AIML4OS/training-material-starting-pack) — the template this repository follows
+- [Quarto documentation](https://quarto.org/)
+- [Qdrant documentation](https://qdrant.tech/)
+- [SSP Cloud (Onyxia)](https://datalab.sspcloud.fr/)
