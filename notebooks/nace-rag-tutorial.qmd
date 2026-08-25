@@ -10,7 +10,14 @@ execute:
 __Open this tutorial as an interactive notebook__: <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&onyxia.friendlyName=«NACE-RAG-tutorial»&init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&logoColor=white" alt="Onyxia"></a>
 
 ::: {.callout-tip}
-**Running the cells interactively?** A Python virtual environment has already been created for you (`WP10-Cluster5-nace-revision/.venv/bin/python`). Click the **kernel selector** in the top-right corner of the notebook and pick that environment before running any cell.
+**Running the cells interactively?** A Python virtual environment has already been created for you (`WP10-Cluster5-nace-revision/.venv/bin/python`). 
+
+How to make it ?
+
+- Click the black and blue button to lauch the interactive VSCode service
+- Open the following file: "WP10-Cluster5-nace-revision/notebooks/nace-rag-tutorial.qmd"
+- Scroll down to the first code cell and run it ("Run Cell" button or Ctrl+Enter shortcut) 
+
 :::
 
 # Goal of this tutorial
