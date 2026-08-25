@@ -510,6 +510,8 @@ Counting these as pipeline errors artificially deflates the accuracy figures bel
 
 ## Batch inference on the sample
 
+The loop below calls `run_rag_pipeline` sequentially on each activity label of the sampled evaluation set, catching per-row errors so a single failed call does not stop the whole batch, and collects every prediction into a `pandas` DataFrame used for scoring in §5.
+
 ```{python}
 #| label: batch-inference
 #| output: true
