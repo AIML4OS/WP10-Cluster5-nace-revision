@@ -87,8 +87,8 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 
 ### Getting your llm.lab API key
 
-1. Go to the llm.lab interface and sign in with your SSPCloud account.
-2. Open **Settings** (top right) → **Account** → **API Keys**.
+1. Go to the [llm.lab](https://llm.lab.sspcloud.fr/) interface and sign in with your SSPCloud account (use the previous link or click the upper-right button "AI Chat" from SSPCloud's web page).
+2. Open **Settings** (down left) → **Account** → **API Keys**.
 3. Generate a new key and copy it into `LLMLAB_API_KEY`.
 
 ![Creating an API key on llm.lab](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png)
