@@ -349,6 +349,7 @@ For ~1k documents this sequential loop is fine; for production-scale corpora, ba
 #| tags: [parameters]
 
 SAMPLE_SIZE = 100
+SAMPLE_SEED = 42
 ```
 
 ```{python}
@@ -458,7 +459,7 @@ annotations = con.sql(f"""
     FROM read_parquet(
       'https://minio.lab.sspcloud.fr/projet-formation/diffusion/funathon/2026/project2/generation_None_temp08.parquet'
     )
-    USING SAMPLE {SAMPLE_SIZE}
+    USING SAMPLE {SAMPLE_SIZE} (reservoir, {SAMPLE_SEED})
 """).to_df().to_dict(orient="records")
 
 print(f"Loaded {len(annotations)} (label, reference NACE 2.1 code) pairs")
