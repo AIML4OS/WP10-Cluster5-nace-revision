@@ -349,7 +349,6 @@ SAMPLE_SEED = 42
 ```{python}
 #| label: params
 
-EMB_MODEL_NAME = "qwen3-embedding-8b"
 GEN_MODEL_NAME = "gemma4-26b-moe"
 
 RETRIEVER_LIMIT = 5
