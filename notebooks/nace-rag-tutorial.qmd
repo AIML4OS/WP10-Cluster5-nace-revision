@@ -509,6 +509,12 @@ for doc in nace_documents:
 level3_docs = [doc for doc in nace_documents if doc.level == 3]
 level3_single_child = [doc.code for doc in level3_docs if len(children.get(doc.code, [])) == 1]
 
+# A level-3 code with a single level-4 child (e.g. `01.3` -> `01.30`) denotes the same
+# activity as that child — the trailing "0" adds no real subdivision. Map both ways so
+# the accuracy calculation in §5 can treat the pair as equal.
+SINGLE_CHILD_EQUIVALENTS = {parent: children[parent][0] for parent in level3_single_child}
+SINGLE_CHILD_EQUIVALENTS.update({child: parent for parent, child in SINGLE_CHILD_EQUIVALENTS.items()})
+
 print(f"{len(level3_single_child)} / {len(level3_docs)} level-3 codes have exactly one level-4 child")
 print("Examples:", level3_single_child[:5])
 ```
@@ -516,7 +522,7 @@ print("Examples:", level3_single_child[:5])
 ::: {.callout-important}
 **Some "parent vs. child" mismatches are not mismatches at all.** As shown above, **143 of the 287 level-3 codes (50%) have exactly one level-4 child** — e.g. `01.3` only ever expands to `01.30`. For these, the level-3 code and its level-4 child denote the *same* real-world activity: predicting the parent is not an approximation, it is the right answer written one level up.
 
-Counting these as pipeline errors artificially deflates the accuracy figures below. Before trusting an aggregate accuracy number for a use case where this matters, prune the nomenclature and/or the predicted codes: collapse parent codes with a single descendant onto that descendant (or, symmetrically, treat a prediction as correct whenever it is an ancestor of the true code *and* that ancestor has no other level-4 descendant). This tutorial does not implement that pruning — the metrics in §5 use plain string equality — but keep this caveat in mind when reading the results.
+Counting these as pipeline errors would artificially deflate the accuracy figures below. `SINGLE_CHILD_EQUIVALENTS` above maps each such pair onto one another, and §5's accuracy calculation treats them as equal instead of relying on plain string equality.
 :::
 
 ## Batch inference on the sample
@@ -567,10 +573,17 @@ Concretely: retriever hits 80% of the time, LLM then picks correctly 90% of *tho
 ```{python}
 #| label: eval-columns
 
+def _equivalent_codes(code):
+    """A code, plus its single-child/parent equivalent (see SINGLE_CHILD_EQUIVALENTS) if it has one."""
+    equivalent = SINGLE_CHILD_EQUIVALENTS.get(code)
+    return {code, equivalent} if equivalent else {code}
+
 results["retriever_hit"] = results.apply(
-    lambda row: row["true_code"] in row["retrieved_codes"], axis=1
+    lambda row: bool(_equivalent_codes(row["true_code"]) & set(row["retrieved_codes"])), axis=1
 )
-results["pipeline_correct"] = results["pred_code"] == results["true_code"]
+results["pipeline_correct"] = results.apply(
+    lambda row: row["pred_code"] in _equivalent_codes(row["true_code"]), axis=1
+)
 results["llm_correct_given_retriever"] = results.apply(
     lambda row: row["pipeline_correct"] if row["retriever_hit"] else None, axis=1
 )
