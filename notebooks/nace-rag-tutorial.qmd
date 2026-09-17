@@ -108,23 +108,7 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 
 ![Retrieving the Qdrant token](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png)
 
-## Loading credentials in Python
 
-```python
-from dotenv import load_dotenv
-load_dotenv()
-```
-
-To verify a variable was loaded:
-
-```python
-import os
-try:
-    QDRANT_URL = os.environ["QDRANT_URL"]
-    print("QDRANT_URL loaded successfully")
-except KeyError:
-    raise ValueError("QDRANT_URL is not set; check your .env file")
-```
 
 # Build the vector database
 
@@ -141,6 +125,14 @@ from qdrant_client import QdrantClient
 
 load_dotenv()
 
+REQUIRED_ENV_VARS = ["LLMLAB_URL", "LLMLAB_API_KEY", "QDRANT_URL", "QDRANT_API_KEY", "QDRANT_API_PORT"]
+missing_env_vars = [var for var in REQUIRED_ENV_VARS if not os.environ.get(var)]
+if missing_env_vars:
+    raise RuntimeError(
+        f"Missing environment variable(s): {', '.join(missing_env_vars)}. "
+        "Check that your .env file exists and is loaded (see the Credentials section above)."
+    )
+
 client_llmlab = OpenAI(
     base_url=os.environ["LLMLAB_URL"],
     api_key=os.environ["LLMLAB_API_KEY"],
@@ -155,6 +147,8 @@ client_qdrant = QdrantClient(
 print("Available llm.lab models:")
 for model in client_llmlab.models.list().data:
     print(f"  - {model.id}")
+
+print(f"\nQdrant reachable: {len(client_qdrant.get_collections().collections)} existing collection(s)")
 ```
 
 ## Load the NACE 2.1 nomenclature
@@ -174,7 +168,7 @@ PATH_NACE = (
 
 con = duckdb.connect(database=":memory:")
 con.execute("INSTALL httpfs; LOAD httpfs;")
-nace = con.execute(f"SELECT * FROM read_csv('{PATH_NACE}')").fetch_arrow_table().to_pylist()
+nace = con.execute(f"SELECT * FROM read_csv('{PATH_NACE}')").to_arrow_table().to_pylist()
 
 print(f"Loaded {len(nace)} NACE 2.1 entries")
 print({k: nace[22][k] for k in ("CODE", "HEADING", "LEVEL")})
