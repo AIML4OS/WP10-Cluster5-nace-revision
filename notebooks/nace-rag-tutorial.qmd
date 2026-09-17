@@ -366,6 +366,14 @@ You are an expert classifier for the NACE 2.1 nomenclature (Statistical Classifi
 You are given a free-text description of an economic activity that needs to be recoded into NACE 2.1, together with a shortlist of candidate NACE 2.1 codes retrieved by a semantic search engine. Your job is to pick the single most appropriate code from the candidates, or to declare the activity not codable if the description is too ambiguous.
 
 Always reply with a valid JSON object matching the requested schema. No explanations, no extra text.
+
+## Output (valid JSON only)
+{{
+  "nace_code": "<one code from the candidate list, or null>",
+  "codable": <true | false>,
+  "confidence": <float between 0.0 and 1.0>
+}}
+
 """
 
 USER_PROMPT_TEMPLATE = """\
@@ -380,12 +388,6 @@ USER_PROMPT_TEMPLATE = """\
 - If several activities are mentioned, only consider the first one.
 - If the description is too vague to decide, return `nace_code: null` and `codable: false`.
 
-## Output (valid JSON only)
-{{
-  "nace_code": "<one code from the candidate list, or null>",
-  "codable": <true | false>,
-  "confidence": <float between 0.0 and 1.0>
-}}
 """
 ```
 
@@ -646,7 +648,7 @@ else:
         + scale_color_manual(values={"Precision": "steelblue", "Coverage": "coral"})
         + scale_linetype_manual(values={"Precision": "solid", "Coverage": "dashed"})
         + labs(title="Precision and coverage vs. confidence threshold",
-               x="Confidence threshold", y="Value", color="", linetype="")
+               x="Confidence threshold", y="%", color="", linetype="")
         + theme_minimal()
     )
     display(p2)
