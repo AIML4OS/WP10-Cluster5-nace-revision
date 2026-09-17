@@ -170,8 +170,18 @@ con = duckdb.connect(database=":memory:")
 con.execute("INSTALL httpfs; LOAD httpfs;")
 nace = con.execute(f"SELECT * FROM read_csv('{PATH_NACE}')").to_arrow_table().to_pylist()
 
-print(f"Loaded {len(nace)} NACE 2.1 entries")
-print({k: nace[22][k] for k in ("CODE", "HEADING", "LEVEL")})
+def _truncate(value, max_len=80):
+    value = "" if value is None else str(value).replace("\n", " ")
+    return value if len(value) <= max_len else value[:max_len].rstrip() + "…"
+
+print(f"Loaded {len(nace)} NACE 2.1 entries\n")
+
+example = nace[22]
+print("Example entry:")
+for key in ("CODE", "HEADING", "LEVEL", "PARENT_CODE"):
+    print(f"  {key:<12}: {example.get(key)}")
+for key in ("Includes", "IncludesAlso", "Excludes"):
+    print(f"  {key:<12}: {_truncate(example.get(key))}")
 ```
 
 ## `NaceDocument`: clean text + embedding + Qdrant point
