@@ -15,8 +15,13 @@ __Open this tutorial as an interactive notebook__: <a href="https://datalab.sspc
 How to make it ?
 
 - Click the black and blue button to lauch the interactive VSCode service
-- Open the following file: "WP10-Cluster5-nace-revision/notebooks/nace-rag-tutorial.qmd"
-- Scroll down to the first code cell and run it ("Run Cell" button or Ctrl+Enter shortcut) 
+- Open the following file: "WP10-Cluster5-nace-revision/exercise.ipynb"
+- Scroll down to the first code cell and run it ("Run Cell" button or Ctrl+Enter shortcut)
+- You will be ask to select a kernel : 
+    - Choose a python environment
+    - Then, choose the .venv already prepared at the root of your filesystem (see below)
+
+![https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/choose_python_env.png]
 
 :::
 
@@ -82,7 +87,7 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 :::
 
 ::: {.callout-note}
-**Where to put `.env`.** Put `.env` at the root of this repository — whether you cloned it yourself, or launched it through the **"Open this tutorial as an interactive notebook"** button above (which downloads the notebook straight into the cloned repository folder).
+**Where to put `.env`.** Put `.env` at the root of "WP10-Cluster5-nace-repository" — whether you cloned it yourself, or launched it through the **"Open this tutorial as an interactive notebook"** button above (which downloads the .ipynb notebook straight into the cloned repository folder).
 :::
 
 ### Getting your llm.lab API key
