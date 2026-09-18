@@ -752,7 +752,7 @@ Note
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_rag_pipeline(activity: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [1] Embed</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    embedding <span class="op">=</span> client_llmlab.embeddings.create(</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span>EMB_MODEL_NAME, <span class="bu">input</span><span class="op">=</span>activity</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span>EMB_MODEL, <span class="bu">input</span><span class="op">=</span>activity</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    ).data[<span class="dv">0</span>].embedding</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [2] Retrieve</span></span>
@@ -911,107 +911,7 @@ Important
 <span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(results)<span class="sc">}</span><span class="ss"> activities processed"</span>)</span>
 <span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>results.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>⚠ Error on 'Representation during conflict proceedings...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Administration of competitive sports...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Electric vehicle charger point installation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Operation of non-residential building portfolios...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Temporary housing for educational purposes...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Cost reduction strategy implementation support...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Bovine breeding for milk production...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Space rental for animal care businesses...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Securities portfolio management services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Organizational structure and effectiveness reviews...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Electrical apparatus upkeep services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Executive advisory and guidance services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Promotional campaign execution support...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Facial rejuvenation techniques...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Consumer behavior analysis and reporting...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Magazine publishing operations...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Long-distance freight carriage...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Management systems certification processes...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Long-term property letting arrangements...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Budgetary planning and control expertise...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Industrial facility space provision...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Self-catering visitor lodging...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Regional corporate headquarters operations...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Roof safety device deployment...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Fighting bull propagation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Commercial wellness experiences...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'On-site computer equipment maintenance...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Wholesale trade of home textile materials....': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Plastering for residential construction...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Procurement process improvement services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Data network cabling installation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Business process improvement consultancy...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Comprehensive advertising agency services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Rental income from owned real estate...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Industrial process equipment commissioning...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Residential real estate portfolio operation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Excavation groundwork and leveling...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Satellite antenna positioning and connection...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Repair of automotive seating components...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Bakery product sales to consumers...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Employee benefits insurance representation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Instruction in techniques for emotional regulation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Specialized equipment sanitation services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Preventative care by general physicians...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Data centre space provision...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Real-time spoken language interpretation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Lease administration for building owners...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Technology roadmap and implementation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'IT equipment troubleshooting and repair...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Company restructuring and turnaround management...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Electric vehicle supply equipment installation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Non-gemstone jewellery assembly...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Process optimization and workflow redesign...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Comprehensive primary care management...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'On-site carpentry for interior spaces...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Habitat creation and species support...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Client workforce supplementation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Specialized computer systems servicing...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Investment portfolio strategic guidance...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Program development for specific needs...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Short-stay residential rental operations...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Commercial video production services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Provision of burial plot spaces...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Application development and programming...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Provision of temporary lodging facilities....': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Custom software solution development...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Business process improvement initiatives...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Heavy goods road transportation...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Securities safekeeping services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Operational efficiency consulting services....': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Long-distance rail cargo delivery...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Business formation legal work...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Fluid milk treatment for extended shelf life...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Diverse product retail commerce...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Management of rental housing properties...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Roof space leasing for energy infrastructure...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Data processing infrastructure certification...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Self-owned building rental activities...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Detailed site investigations and analysis...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Expert guidance in creative disciplines...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Production of fruit-based food commodities...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Public affairs and government relations...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Leased property administration...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Specialized personal assistance services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Top-level corporate governance...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Emergency preparedness instruction...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Directorate mandate support services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Word processing and formatting operations...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Real estate portfolio management...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Luggage and leather article refurbishment...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Large-scale pastry preservation processes...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Corporate restructuring and performance analysis...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Specialized technical advisory services...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Data center operational oversight...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Individualized animal companionship support...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Commercial real estate portfolio management...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Architectural design and technical studies...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Real estate portfolio management...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Specialized engineering design solutions...': name 'EMB_MODEL_NAME' is not defined
-⚠ Error on 'Retail of personal attire...': name 'EMB_MODEL_NAME' is not defined
-
+<pre><code>
 100 activities processed</code></pre>
 </div>
 <div id="batch-inference" class="cell-output cell-output-display" data-execution_count="13">
@@ -1035,46 +935,46 @@ Important
 <th data-quarto-table-cell-role="th">0</th>
 <td>Representation during conflict proceedings</td>
 <td>69.10</td>
-<td>None</td>
-<td>False</td>
-<td>0.0</td>
-<td>[]</td>
+<td>69.10</td>
+<td>True</td>
+<td>1.00</td>
+<td>[69.1, 69.10, V, 99, 74.3]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
 <td>Administration of competitive sports</td>
 <td>93.12</td>
-<td>None</td>
-<td>False</td>
-<td>0.0</td>
-<td>[]</td>
+<td>93.19</td>
+<td>True</td>
+<td>1.00</td>
+<td>[93.1, 93.19, 93, 93.12, 93.11]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
 <td>Electric vehicle charger point installation</td>
 <td>43.21</td>
-<td>None</td>
-<td>False</td>
-<td>0.0</td>
-<td>[]</td>
+<td>43.21</td>
+<td>True</td>
+<td>1.00</td>
+<td>[35.15, 43.21, 43.2, 55.3, 27.9]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
 <td>Operation of non-residential building portfolios</td>
 <td>68.20</td>
-<td>None</td>
-<td>False</td>
-<td>0.0</td>
-<td>[]</td>
+<td>68.2</td>
+<td>True</td>
+<td>0.90</td>
+<td>[68.2, 41.0, 68, 81.1, 35]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
 <td>Temporary housing for educational purposes</td>
 <td>55.90</td>
-<td>None</td>
-<td>False</td>
-<td>0.0</td>
-<td>[]</td>
+<td>55.9</td>
+<td>True</td>
+<td>0.85</td>
+<td>[85.6, 85, 55.9, 85.2, 85.4]</td>
 </tr>
 </tbody>
 </table>
@@ -1150,17 +1050,17 @@ Tip
         RAG RECODIFICATION: NACE 2.1
 ====================================================
   Activities processed         : 100
-  Correctly recoded            : 0  (0.0%)
+  Correctly recoded            : 68  (68.0%)
 
-  Retriever@5 accuracy         : 0.0%
-  LLM accuracy (conditional)   : nan%
-  Pipeline accuracy            : 0.0%
+  Retriever@5 accuracy         : 77.0%
+  LLM accuracy (conditional)   : 88.3%
+  Pipeline accuracy            : 68.0%
 
-  Retriever errors             : 100  (100.0%)
-  LLM errors                   : 0  (0.0%)
+  Retriever errors             : 23  (23.0%)
+  LLM errors                   : 9  (9.0%)
 ====================================================
 
-Cross-check: Retriever@k × LLM = 0.000 × nan = nan%</code></pre>
+Cross-check: Retriever@k × LLM = 0.770 × 0.883 = 68.0%</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1179,7 +1079,7 @@ Note
 <section id="precisioncoverage-trade-off" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="precisioncoverage-trade-off"><span class="header-section-number">5.1</span> Precision–coverage trade-off</h2>
 <p>The LLM returns a confidence score. Filtering on it raises precision but lowers coverage (more labels left for manual review).</p>
-<div id="cell-precision-coverage" class="cell" data-execution_count="18">
+<div id="precision-coverage" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    ggplot, aes, geom_boxplot, geom_line, geom_point,</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    scale_color_manual, scale_linetype_manual, labs, theme_minimal,</span>
@@ -1224,12 +1124,16 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" id="precision-coverage" width="672" height="480" class="figure-img"></a></p>
+<p><a href="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" id="precision-coverage-1" width="672" height="480" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>No confidence threshold yielded a non-empty subset; skipping precision/coverage plot.</code></pre>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="nace-rag-tutorial_files/figure-html/precision-coverage-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="nace-rag-tutorial_files/figure-html/precision-coverage-output-2.png" id="precision-coverage-2" width="672" height="480" class="figure-img"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
