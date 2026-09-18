@@ -9,6 +9,9 @@ execute:
 
 __Open this tutorial as an interactive notebook__: <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&onyxia.friendlyName=«NACE-RAG-tutorial»&init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&logoColor=white" alt="Onyxia"></a>
 
+
+![Simplified diagram of this tutorial](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/wp10-rag-tutorial.svg)
+
 ::: {.callout-tip}
 **Running the cells interactively?** A Python virtual environment has already been created for you (`WP10-Cluster5-nace-revision/.venv/bin/python`). 
 
@@ -21,7 +24,7 @@ How to make it ?
     - Choose a python environment
     - Then, choose the .venv already prepared at the root of your filesystem (see below)
 
-![https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/choose_python_env.png]
+![Choosing the prepared Python environment](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/choose_python_env.png)
 
 :::
 
