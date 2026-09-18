@@ -893,23 +893,26 @@ Important
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> tqdm(annotations, desc<span class="op">=</span><span class="st">"Recoding"</span>, unit<span class="op">=</span><span class="st">"label"</span>):</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> run_rag_pipeline(row[<span class="st">"label"</span>])</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> {<span class="st">"nace_code"</span>: <span class="va">None</span>, <span class="st">"codable"</span>: <span class="va">False</span>, <span class="st">"confidence"</span>: <span class="fl">0.0</span>, <span class="st">"retrieved_codes"</span>: []}</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        tqdm.write(<span class="ss">f"⚠ Error on '</span><span class="sc">{</span>row[<span class="st">'label'</span>][:<span class="dv">60</span>]<span class="sc">}</span><span class="ss">...': </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    records.append({</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"activity"</span>: row[<span class="st">"label"</span>],</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"true_code"</span>: row[<span class="st">"code"</span>],</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred_code"</span>: pred.get(<span class="st">"nace_code"</span>),</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codable"</span>: pred.get(<span class="st">"codable"</span>, <span class="va">False</span>),</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"confidence"</span>: pred.get(<span class="st">"confidence"</span>, <span class="fl">0.0</span>),</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"retrieved_codes"</span>: pred.get(<span class="st">"retrieved_codes"</span>, []),</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(records)</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(results)<span class="sc">}</span><span class="ss"> activities processed"</span>)</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>results.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    pipeline_error <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> run_rag_pipeline(row[<span class="st">"label"</span>])</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> {<span class="st">"nace_code"</span>: <span class="va">None</span>, <span class="st">"codable"</span>: <span class="va">False</span>, <span class="st">"confidence"</span>: <span class="fl">0.0</span>, <span class="st">"retrieved_codes"</span>: []}</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        pipeline_error <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        tqdm.write(<span class="ss">f"⚠ Error on '</span><span class="sc">{</span>row[<span class="st">'label'</span>][:<span class="dv">60</span>]<span class="sc">}</span><span class="ss">...': </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    records.append({</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"activity"</span>: row[<span class="st">"label"</span>],</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"true_code"</span>: row[<span class="st">"code"</span>],</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred_code"</span>: pred.get(<span class="st">"nace_code"</span>),</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codable"</span>: pred.get(<span class="st">"codable"</span>, <span class="va">False</span>),</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"confidence"</span>: pred.get(<span class="st">"confidence"</span>, <span class="fl">0.0</span>),</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"retrieved_codes"</span>: pred.get(<span class="st">"retrieved_codes"</span>, []),</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pipeline_error"</span>: pipeline_error,  <span class="co"># a failed API call, not a genuine low-confidence prediction</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(records)</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(results)<span class="sc">}</span><span class="ss"> activities processed"</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>results.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 100 activities processed</code></pre>
@@ -928,6 +931,7 @@ Important
 <th data-quarto-table-cell-role="th">codable</th>
 <th data-quarto-table-cell-role="th">confidence</th>
 <th data-quarto-table-cell-role="th">retrieved_codes</th>
+<th data-quarto-table-cell-role="th">pipeline_error</th>
 </tr>
 </thead>
 <tbody>
@@ -939,6 +943,7 @@ Important
 <td>True</td>
 <td>1.00</td>
 <td>[69.1, 69.10, V, 99, 74.3]</td>
+<td>False</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
@@ -948,6 +953,7 @@ Important
 <td>True</td>
 <td>1.00</td>
 <td>[93.1, 93.19, 93, 93.12, 93.11]</td>
+<td>False</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
@@ -957,6 +963,7 @@ Important
 <td>True</td>
 <td>1.00</td>
 <td>[35.15, 43.21, 43.2, 55.3, 27.9]</td>
+<td>False</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
@@ -966,6 +973,7 @@ Important
 <td>True</td>
 <td>0.90</td>
 <td>[68.2, 41.0, 68, 81.1, 35]</td>
+<td>False</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
@@ -975,6 +983,7 @@ Important
 <td>True</td>
 <td>0.85</td>
 <td>[85.6, 85, 55.9, 85.2, 85.4]</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -1096,31 +1105,33 @@ Note
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme_minimal()</span>
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> [i <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]:</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> results[results[<span class="st">"confidence"</span>] <span class="op">&gt;=</span> t]</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Precision"</span>, <span class="st">"value"</span>: subset[<span class="st">"pipeline_correct"</span>].mean()})</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Coverage"</span>,  <span class="st">"value"</span>: <span class="bu">len</span>(subset) <span class="op">/</span> <span class="bu">len</span>(results)})</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>df_thresh <span class="op">=</span> pd.DataFrame(rows, columns<span class="op">=</span>[<span class="st">"threshold"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>])</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>scorable <span class="op">=</span> results[<span class="op">~</span>results[<span class="st">"pipeline_error"</span>]]  <span class="co"># drop failed API calls: not genuine low-confidence predictions</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> [i <span class="op">/</span> <span class="dv">100</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">2</span>)]:</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> scorable[scorable[<span class="st">"confidence"</span>] <span class="op">&gt;=</span> t]</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Precision"</span>, <span class="st">"value"</span>: subset[<span class="st">"pipeline_correct"</span>].mean()})</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Coverage"</span>,  <span class="st">"value"</span>: <span class="bu">len</span>(subset) <span class="op">/</span> <span class="bu">len</span>(scorable)})</span>
 <span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>display(p1)</span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df_thresh.empty:</span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No confidence threshold yielded a non-empty subset; skipping precision/coverage plot."</span>)</span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    p2 <span class="op">=</span> (</span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        ggplot(df_thresh, aes(x<span class="op">=</span><span class="st">"threshold"</span>, y<span class="op">=</span><span class="st">"value"</span>, color<span class="op">=</span><span class="st">"metric"</span>, linetype<span class="op">=</span><span class="st">"metric"</span>))</span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> geom_line() <span class="op">+</span> geom_point()</span>
-<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_color_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"steelblue"</span>, <span class="st">"Coverage"</span>: <span class="st">"coral"</span>})</span>
-<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_linetype_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"solid"</span>, <span class="st">"Coverage"</span>: <span class="st">"dashed"</span>})</span>
-<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Precision and coverage vs. confidence threshold"</span>,</span>
-<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>               x<span class="op">=</span><span class="st">"Confidence threshold"</span>, y<span class="op">=</span><span class="st">"%"</span>, color<span class="op">=</span><span class="st">""</span>, linetype<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> theme_minimal()</span>
-<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>    display(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>df_thresh <span class="op">=</span> pd.DataFrame(rows, columns<span class="op">=</span>[<span class="st">"threshold"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>])</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>display(p1)</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df_thresh.empty:</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No confidence threshold yielded a non-empty subset; skipping precision/coverage plot."</span>)</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    p2 <span class="op">=</span> (</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>        ggplot(df_thresh, aes(x<span class="op">=</span><span class="st">"threshold"</span>, y<span class="op">=</span><span class="st">"value"</span>, color<span class="op">=</span><span class="st">"metric"</span>, linetype<span class="op">=</span><span class="st">"metric"</span>))</span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> geom_line() <span class="op">+</span> geom_point()</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_color_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"steelblue"</span>, <span class="st">"Coverage"</span>: <span class="st">"coral"</span>})</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_linetype_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"solid"</span>, <span class="st">"Coverage"</span>: <span class="st">"dashed"</span>})</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Precision and coverage vs. confidence threshold"</span>,</span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>               x<span class="op">=</span><span class="st">"Confidence threshold"</span>, y<span class="op">=</span><span class="st">"%"</span>, color<span class="op">=</span><span class="st">""</span>, linetype<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> theme_minimal()</span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>    display(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
