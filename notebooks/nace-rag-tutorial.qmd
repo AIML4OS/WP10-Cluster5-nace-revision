@@ -541,10 +541,12 @@ from tqdm import tqdm
 
 records = []
 for row in tqdm(annotations, desc="Recoding", unit="label"):
+    pipeline_error = False
     try:
         pred = run_rag_pipeline(row["label"])
     except Exception as e:
         pred = {"nace_code": None, "codable": False, "confidence": 0.0, "retrieved_codes": []}
+        pipeline_error = True
         tqdm.write(f"⚠ Error on '{row['label'][:60]}...': {e}")
     records.append({
         "activity": row["label"],
@@ -553,6 +555,7 @@ for row in tqdm(annotations, desc="Recoding", unit="label"):
         "codable": pred.get("codable", False),
         "confidence": pred.get("confidence", 0.0),
         "retrieved_codes": pred.get("retrieved_codes", []),
+        "pipeline_error": pipeline_error,  # a failed API call, not a genuine low-confidence prediction
     })
 
 results = pd.DataFrame(records)
@@ -653,12 +656,14 @@ p1 = (
     + theme_minimal()
 )
 
+scorable = results[~results["pipeline_error"]]  # drop failed API calls: not genuine low-confidence predictions
+
 rows = []
-for t in [i / 10 for i in range(1, 10)]:
-    subset = results[results["confidence"] >= t]
+for t in [i / 100 for i in range(0, 100, 2)]:
+    subset = scorable[scorable["confidence"] >= t]
     if len(subset) > 0:
         rows.append({"threshold": t, "metric": "Precision", "value": subset["pipeline_correct"].mean()})
-        rows.append({"threshold": t, "metric": "Coverage",  "value": len(subset) / len(results)})
+        rows.append({"threshold": t, "metric": "Coverage",  "value": len(subset) / len(scorable)})
 
 df_thresh = pd.DataFrame(rows, columns=["threshold", "metric", "value"])
 
