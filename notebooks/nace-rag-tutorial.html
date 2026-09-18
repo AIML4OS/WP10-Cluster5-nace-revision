@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f29a191a754d8ddb0ab19e0f4df1708e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-f29a191a754d8ddb0ab19e0f4df1708e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-f29a191a754d8ddb0ab19e0f4df1708e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-76ae0b28d3030392c2d37b96cb1de7dd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-76ae0b28d3030392c2d37b96cb1de7dd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-76ae0b28d3030392c2d37b96cb1de7dd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -231,7 +231,6 @@ window.Quarto = {
   <li><a href="#getting-your-llm.lab-api-key" id="toc-getting-your-llm.lab-api-key" class="nav-link" data-scroll-target="#getting-your-llm.lab-api-key"><span class="header-section-number">2.2.1</span> Getting your llm.lab API key</a></li>
   <li><a href="#getting-your-qdrant-credentials" id="toc-getting-your-qdrant-credentials" class="nav-link" data-scroll-target="#getting-your-qdrant-credentials"><span class="header-section-number">2.2.2</span> Getting your Qdrant credentials</a></li>
   </ul></li>
-  <li><a href="#loading-credentials-in-python" id="toc-loading-credentials-in-python" class="nav-link" data-scroll-target="#loading-credentials-in-python"><span class="header-section-number">2.3</span> Loading credentials in Python</a></li>
   </ul></li>
   <li><a href="#build-the-vector-database" id="toc-build-the-vector-database" class="nav-link" data-scroll-target="#build-the-vector-database"><span class="header-section-number">3</span> Build the vector database</a>
   <ul class="collapse">
@@ -278,6 +277,12 @@ window.Quarto = {
 
 
 <p><strong>Open this tutorial as an interactive notebook</strong>: <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&amp;onyxia.friendlyName=«NACE-RAG-tutorial»&amp;init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&amp;init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&amp;git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&amp;logoColor=white" alt="Onyxia"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/wp10-rag-tutorial.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Simplified diagram of this tutorial"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/wp10-rag-tutorial.svg" class="img-fluid figure-img" alt="Simplified diagram of this tutorial"></a></p>
+<figcaption>Simplified diagram of this tutorial</figcaption>
+</figure>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -292,9 +297,20 @@ Tip
 <p>How to make it ?</p>
 <ul>
 <li>Click the black and blue button to lauch the interactive VSCode service</li>
-<li>Open the following file: “WP10-Cluster5-nace-revision/notebooks/nace-rag-tutorial.qmd”</li>
+<li>Open the following file: “WP10-Cluster5-nace-revision/exercise.ipynb”</li>
 <li>Scroll down to the first code cell and run it (“Run Cell” button or Ctrl+Enter shortcut)</li>
+<li>You will be ask to select a kernel :
+<ul>
+<li>Choose a python environment</li>
+<li>Then, choose the .venv already prepared at the root of your filesystem (see below)</li>
+</ul></li>
 </ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/choose_python_env.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Choosing the prepared Python environment"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/choose_python_env.png" class="img-fluid figure-img" alt="Choosing the prepared Python environment"></a></p>
+<figcaption>Choosing the prepared Python environment</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <section id="goal-of-this-tutorial" class="level1" data-number="1">
@@ -376,7 +392,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Where to put <code>.env</code>.</strong> Put <code>.env</code> at the root of this repository — whether you cloned it yourself, or launched it through the <strong>“Open this tutorial as an interactive notebook”</strong> button above (which downloads the notebook straight into the cloned repository folder).</p>
+<p><strong>Where to put <code>.env</code>.</strong> Put <code>.env</code> at the root of “WP10-Cluster5-nace-repository” — whether you cloned it yourself, or launched it through the <strong>“Open this tutorial as an interactive notebook”</strong> button above (which downloads the .ipynb notebook straight into the cloned repository folder).</p>
 </div>
 </div>
 <section id="getting-your-llm.lab-api-key" class="level3" data-number="2.2.1">
@@ -388,7 +404,7 @@ Note
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Creating an API key on llm.lab"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png" class="img-fluid figure-img" alt="Creating an API key on llm.lab"></a></p>
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Creating an API key on llm.lab"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/api_llmlab.png" class="img-fluid figure-img" alt="Creating an API key on llm.lab"></a></p>
 <figcaption>Creating an API key on llm.lab</figcaption>
 </figure>
 </div>
@@ -400,7 +416,7 @@ Note
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_service.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Creating a Qdrant service on SSPCloud"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_service.png" class="img-fluid figure-img" alt="Creating a Qdrant service on SSPCloud"></a></p>
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_service.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Creating a Qdrant service on SSPCloud"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_service.png" class="img-fluid figure-img" alt="Creating a Qdrant service on SSPCloud"></a></p>
 <figcaption>Creating a Qdrant service on SSPCloud</figcaption>
 </figure>
 </div>
@@ -409,23 +425,11 @@ Note
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Retrieving the Qdrant token"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png" class="img-fluid figure-img" alt="Retrieving the Qdrant token"></a></p>
+<p><a href="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Retrieving the Qdrant token"><img src="https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png" class="img-fluid figure-img" alt="Retrieving the Qdrant token"></a></p>
 <figcaption>Retrieving the Qdrant token</figcaption>
 </figure>
 </div>
 </section>
-</section>
-<section id="loading-credentials-in-python" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="loading-credentials-in-python"><span class="header-section-number">2.3</span> Loading credentials in Python</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To verify a variable was loaded:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    QDRANT_URL <span class="op">=</span> os.environ[<span class="st">"QDRANT_URL"</span>]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"QDRANT_URL loaded successfully"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"QDRANT_URL is not set; check your .env file"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="build-the-vector-database" class="level1" data-number="3">
@@ -433,27 +437,37 @@ Note
 <section id="connections" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="connections"><span class="header-section-number">3.1</span> Connections</h2>
 <div id="connections" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> QdrantClient</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>client_llmlab <span class="op">=</span> OpenAI(</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    base_url<span class="op">=</span>os.environ[<span class="st">"LLMLAB_URL"</span>],</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    api_key<span class="op">=</span>os.environ[<span class="st">"LLMLAB_API_KEY"</span>],</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>client_qdrant <span class="op">=</span> QdrantClient(</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    url<span class="op">=</span>os.environ[<span class="st">"QDRANT_URL"</span>],</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    api_key<span class="op">=</span>os.environ[<span class="st">"QDRANT_API_KEY"</span>],</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    port<span class="op">=</span>os.environ[<span class="st">"QDRANT_API_PORT"</span>],</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Available llm.lab models:"</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> client_llmlab.models.<span class="bu">list</span>().data:</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  - </span><span class="sc">{</span>model<span class="sc">.</span><span class="bu">id</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client <span class="im">import</span> QdrantClient</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>REQUIRED_ENV_VARS <span class="op">=</span> [<span class="st">"LLMLAB_URL"</span>, <span class="st">"LLMLAB_API_KEY"</span>, <span class="st">"QDRANT_URL"</span>, <span class="st">"QDRANT_API_KEY"</span>, <span class="st">"QDRANT_API_PORT"</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>missing_env_vars <span class="op">=</span> [var <span class="cf">for</span> var <span class="kw">in</span> REQUIRED_ENV_VARS <span class="cf">if</span> <span class="kw">not</span> os.environ.get(var)]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> missing_env_vars:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"Missing environment variable(s): </span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join(missing_env_vars)<span class="sc">}</span><span class="ss">. "</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Check that your .env file exists and is loaded (see the Credentials section above)."</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>client_llmlab <span class="op">=</span> OpenAI(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    base_url<span class="op">=</span>os.environ[<span class="st">"LLMLAB_URL"</span>],</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    api_key<span class="op">=</span>os.environ[<span class="st">"LLMLAB_API_KEY"</span>],</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>client_qdrant <span class="op">=</span> QdrantClient(</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    url<span class="op">=</span>os.environ[<span class="st">"QDRANT_URL"</span>],</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    api_key<span class="op">=</span>os.environ[<span class="st">"QDRANT_API_KEY"</span>],</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    port<span class="op">=</span>os.environ[<span class="st">"QDRANT_API_PORT"</span>],</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Available llm.lab models:"</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> client_llmlab.models.<span class="bu">list</span>().data:</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  - </span><span class="sc">{</span>model<span class="sc">.</span><span class="bu">id</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Qdrant reachable: </span><span class="sc">{</span><span class="bu">len</span>(client_qdrant.get_collections().collections)<span class="sc">}</span><span class="ss"> existing collection(s)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Available llm.lab models:</code></pre>
 </div>
@@ -463,7 +477,9 @@ Note
   - qwen3-vl
   - qwen3-embedding-8b
   - chandra-ocr-2
-  - qwen3-8-27b</code></pre>
+  - qwen3-8-27b
+
+Qdrant reachable: 2 existing collection(s)</code></pre>
 </div>
 </div>
 </section>
@@ -471,22 +487,40 @@ Note
 <h2 data-number="3.2" class="anchored" data-anchor-id="load-the-nace-2.1-nomenclature"><span class="header-section-number">3.2</span> Load the NACE 2.1 nomenclature</h2>
 <p>The official NACE 2.1 structure (codes, headings, hierarchy, <em>Includes</em> / <em>Excludes</em> notes) is pulled from S3 / MinIO.</p>
 <div id="load-nace" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>PATH_NACE <span class="op">=</span> (</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/funathon/2026"</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/project2/NACE_Rev2.1_Structure_Explanatory_Notes_EN.tsv"</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(database<span class="op">=</span><span class="st">":memory:"</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"INSTALL httpfs; LOAD httpfs;"</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>nace <span class="op">=</span> con.execute(<span class="ss">f"SELECT * FROM read_csv('</span><span class="sc">{</span>PATH_NACE<span class="sc">}</span><span class="ss">')"</span>).fetch_arrow_table().to_pylist()</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(nace)<span class="sc">}</span><span class="ss"> NACE 2.1 entries"</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({k: nace[<span class="dv">22</span>][k] <span class="cf">for</span> k <span class="kw">in</span> (<span class="st">"CODE"</span>, <span class="st">"HEADING"</span>, <span class="st">"LEVEL"</span>)})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>PATH_NACE <span class="op">=</span> (</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://minio.lab.sspcloud.fr/projet-formation/diffusion/funathon/2026"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/project2/NACE_Rev2.1_Structure_Explanatory_Notes_EN.tsv"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(database<span class="op">=</span><span class="st">":memory:"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"INSTALL httpfs; LOAD httpfs;"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>nace <span class="op">=</span> con.execute(<span class="ss">f"SELECT * FROM read_csv('</span><span class="sc">{</span>PATH_NACE<span class="sc">}</span><span class="ss">')"</span>).to_arrow_table().to_pylist()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _truncate(value, max_len<span class="op">=</span><span class="dv">80</span>):</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    value <span class="op">=</span> <span class="st">""</span> <span class="cf">if</span> value <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> <span class="bu">str</span>(value).replace(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">" "</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> value <span class="cf">if</span> <span class="bu">len</span>(value) <span class="op">&lt;=</span> max_len <span class="cf">else</span> value[:max_len].rstrip() <span class="op">+</span> <span class="st">"…"</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(nace)<span class="sc">}</span><span class="ss"> NACE 2.1 entries</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>example <span class="op">=</span> nace[<span class="dv">22</span>]</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Example entry:"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"CODE"</span>, <span class="st">"HEADING"</span>, <span class="st">"LEVEL"</span>, <span class="st">"PARENT_CODE"</span>):</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>key<span class="sc">:&lt;12}</span><span class="ss">: </span><span class="sc">{</span>example<span class="sc">.</span>get(key)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"Includes"</span>, <span class="st">"IncludesAlso"</span>, <span class="st">"Excludes"</span>):</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>key<span class="sc">:&lt;12}</span><span class="ss">: </span><span class="sc">{</span>_truncate(example.get(key))<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded 1047 NACE 2.1 entries
-{'CODE': '01.4', 'HEADING': 'Animal production', 'LEVEL': 3}</code></pre>
+
+Example entry:
+  CODE        : 01.4
+  HEADING     : Animal production
+  LEVEL       : 3
+  PARENT_CODE : 01
+  Includes    : This group includes:\n- farming (husbandry, raising) and breeding of all animals…
+  IncludesAlso: 
+  Excludes    : This group excludes:\n- farm animal boarding and care, see 01.62\n- production o…</code></pre>
 </div>
 </div>
 </section>
@@ -494,90 +528,90 @@ Note
 <h2 data-number="3.3" class="anchored" data-anchor-id="nacedocument-clean-text-embedding-qdrant-point"><span class="header-section-number">3.3</span> <code>NaceDocument</code>: clean text + embedding + Qdrant point</h2>
 <p>One class carries every step from raw row to Qdrant point. The <code>text</code> field is what the embedding model sees; the <code>payload</code> is what retrieval returns.</p>
 <div id="nace-document" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass, field</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> uuid <span class="im">import</span> uuid5, NAMESPACE_DNS</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.models <span class="im">import</span> PointStruct</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>NACE_NAMESPACE <span class="op">=</span> uuid5(NAMESPACE_DNS, <span class="st">"nace-rev2.1"</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _clean(value) <span class="op">-&gt;</span> Optional[<span class="bu">str</span>]:</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> value <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    cleaned <span class="op">=</span> <span class="st">" "</span>.join(<span class="bu">str</span>(value).replace(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">" "</span>).split())</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cleaned <span class="kw">or</span> <span class="va">None</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NaceDocument:</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    code: <span class="bu">str</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    heading: <span class="bu">str</span></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    level: <span class="bu">int</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    parent_code: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    includes: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    includes_also: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    excludes: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    text: <span class="bu">str</span> <span class="op">=</span> field(init<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    vector: Optional[List[<span class="bu">float</span>]] <span class="op">=</span> field(default<span class="op">=</span><span class="va">None</span>, init<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> from_raw(cls, raw: <span class="bu">dict</span>, <span class="op">*</span>, with_includes_also: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>, with_excludes: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>) <span class="op">-&gt;</span> <span class="st">"NaceDocument"</span>:</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"CODE"</span>, <span class="st">"HEADING"</span>, <span class="st">"LEVEL"</span>):</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> raw.get(key):</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Missing required field: </span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="bu">int</span>(raw[<span class="st">"LEVEL"</span>])</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> (<span class="dv">1</span> <span class="op">&lt;=</span> level <span class="op">&lt;=</span> <span class="dv">4</span>):</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Invalid level: </span><span class="sc">{</span>level<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        obj <span class="op">=</span> cls(</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>            code<span class="op">=</span><span class="bu">str</span>(raw[<span class="st">"CODE"</span>]).strip(),</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>            heading<span class="op">=</span>_clean(raw[<span class="st">"HEADING"</span>]),</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>            level<span class="op">=</span>level,</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>            parent_code<span class="op">=</span>_clean(raw.get(<span class="st">"PARENT_CODE"</span>)),</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>            includes<span class="op">=</span>_clean(raw.get(<span class="st">"Includes"</span>)),</span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>            includes_also<span class="op">=</span>_clean(raw.get(<span class="st">"IncludesAlso"</span>)),</span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>            excludes<span class="op">=</span>_clean(raw.get(<span class="st">"Excludes"</span>)),</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        obj.text <span class="op">=</span> obj.to_embedding_text(with_includes_also<span class="op">=</span>with_includes_also, with_excludes<span class="op">=</span>with_excludes)</span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> obj</span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_embedding_text(<span class="va">self</span>, <span class="op">*</span>, with_includes_also: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>, with_excludes: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        parts <span class="op">=</span> [<span class="ss">f"# Code: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>code<span class="sc">}</span><span class="ss">"</span>, <span class="ss">f"# Title: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>heading<span class="sc">}</span><span class="ss">"</span>]</span>
-<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.includes:</span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>            parts <span class="op">+=</span> [<span class="st">""</span>, <span class="st">"## Includes:"</span>, <span class="va">self</span>.includes.strip()]</span>
-<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> with_includes_also <span class="kw">and</span> <span class="va">self</span>.includes_also:</span>
-<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>            parts <span class="op">+=</span> [<span class="st">""</span>, <span class="st">"## Also includes:"</span>, <span class="va">self</span>.includes_also.strip()]</span>
-<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> with_excludes <span class="kw">and</span> <span class="va">self</span>.excludes:</span>
-<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>            parts <span class="op">+=</span> [<span class="st">""</span>, <span class="st">"## Excludes:"</span>, <span class="va">self</span>.excludes.strip()]</span>
-<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(parts).replace(<span class="st">"</span><span class="ch">\\</span><span class="st">n"</span>, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>).strip()</span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_embedding(<span class="va">self</span>, client_llmlab, emb_model: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">float</span>]:</span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> client_llmlab.embeddings.create(model<span class="op">=</span>emb_model, <span class="bu">input</span><span class="op">=</span><span class="va">self</span>.text)</span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.vector <span class="op">=</span> response.data[<span class="dv">0</span>].embedding</span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.vector</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_qdrant_point(<span class="va">self</span>) <span class="op">-&gt;</span> PointStruct:</span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.vector <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Vector is missing for code </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>code<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> PointStruct(</span>
-<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>            <span class="bu">id</span><span class="op">=</span><span class="bu">str</span>(uuid5(NACE_NAMESPACE, <span class="va">self</span>.code)),</span>
-<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>            vector<span class="op">=</span><span class="va">self</span>.vector,</span>
-<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>            payload<span class="op">=</span>{</span>
-<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>                <span class="st">"code"</span>: <span class="va">self</span>.code,</span>
-<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>                <span class="st">"level"</span>: <span class="va">self</span>.level,</span>
-<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>                <span class="st">"parent_code"</span>: <span class="va">self</span>.parent_code,</span>
-<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>                <span class="st">"text"</span>: <span class="va">self</span>.text,</span>
-<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>            },</span>
-<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>nace_documents <span class="op">=</span> [NaceDocument.from_raw(raw) <span class="cf">for</span> raw <span class="kw">in</span> nace]</span>
-<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Built </span><span class="sc">{</span><span class="bu">len</span>(nace_documents)<span class="sc">}</span><span class="ss"> NaceDocument objects"</span>)</span>
-<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Example text (used as embedding input):</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nace_documents[<span class="dv">50</span>].text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass, field</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> uuid <span class="im">import</span> uuid5, NAMESPACE_DNS  <span class="co"># uuid5: makes a unique ID, always the same for the same input</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.models <span class="im">import</span> PointStruct</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>NACE_NAMESPACE <span class="op">=</span> uuid5(NAMESPACE_DNS, <span class="st">"nace-rev2.1"</span>)  <span class="co"># NAMESPACE_DNS: just a fixed starting value uuid5 needs, its exact value doesn't matter</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _clean(value) <span class="op">-&gt;</span> Optional[<span class="bu">str</span>]:</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> value <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    cleaned <span class="op">=</span> <span class="st">" "</span>.join(<span class="bu">str</span>(value).replace(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">" "</span>).split())</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cleaned <span class="kw">or</span> <span class="va">None</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span>  <span class="co"># shortcut to define a simple class that just groups values together</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NaceDocument:</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    code: <span class="bu">str</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    heading: <span class="bu">str</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    level: <span class="bu">int</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    parent_code: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    includes: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    includes_also: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    excludes: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    text: <span class="bu">str</span> <span class="op">=</span> field(init<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    vector: Optional[List[<span class="bu">float</span>]] <span class="op">=</span> field(default<span class="op">=</span><span class="va">None</span>, init<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span>  <span class="co"># alternate constructor: gets the class (cls) instead of an instance (self)</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> from_raw(cls, raw: <span class="bu">dict</span>, <span class="op">*</span>, with_includes_also: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>, with_excludes: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>) <span class="op">-&gt;</span> <span class="st">"NaceDocument"</span>:</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"CODE"</span>, <span class="st">"HEADING"</span>, <span class="st">"LEVEL"</span>):</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> raw.get(key):</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Missing required field: </span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="bu">int</span>(raw[<span class="st">"LEVEL"</span>])</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> (<span class="dv">1</span> <span class="op">&lt;=</span> level <span class="op">&lt;=</span> <span class="dv">4</span>):</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Invalid level: </span><span class="sc">{</span>level<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        obj <span class="op">=</span> cls(</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>            code<span class="op">=</span><span class="bu">str</span>(raw[<span class="st">"CODE"</span>]).strip(),</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>            heading<span class="op">=</span>_clean(raw[<span class="st">"HEADING"</span>]),</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>            level<span class="op">=</span>level,</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>            parent_code<span class="op">=</span>_clean(raw.get(<span class="st">"PARENT_CODE"</span>)),</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>            includes<span class="op">=</span>_clean(raw.get(<span class="st">"Includes"</span>)),</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>            includes_also<span class="op">=</span>_clean(raw.get(<span class="st">"IncludesAlso"</span>)),</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>            excludes<span class="op">=</span>_clean(raw.get(<span class="st">"Excludes"</span>)),</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>        obj.text <span class="op">=</span> obj.to_embedding_text(with_includes_also<span class="op">=</span>with_includes_also, with_excludes<span class="op">=</span>with_excludes)</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> obj</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_embedding_text(<span class="va">self</span>, <span class="op">*</span>, with_includes_also: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>, with_excludes: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>        parts <span class="op">=</span> [<span class="ss">f"# Code: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>code<span class="sc">}</span><span class="ss">"</span>, <span class="ss">f"# Title: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>heading<span class="sc">}</span><span class="ss">"</span>]</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.includes:</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>            parts <span class="op">+=</span> [<span class="st">""</span>, <span class="st">"## Includes:"</span>, <span class="va">self</span>.includes.strip()]</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> with_includes_also <span class="kw">and</span> <span class="va">self</span>.includes_also:</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>            parts <span class="op">+=</span> [<span class="st">""</span>, <span class="st">"## Also includes:"</span>, <span class="va">self</span>.includes_also.strip()]</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> with_excludes <span class="kw">and</span> <span class="va">self</span>.excludes:</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>            parts <span class="op">+=</span> [<span class="st">""</span>, <span class="st">"## Excludes:"</span>, <span class="va">self</span>.excludes.strip()]</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(parts).replace(<span class="st">"</span><span class="ch">\\</span><span class="st">n"</span>, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>).strip()</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_embedding(<span class="va">self</span>, client_llmlab, emb_model: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">float</span>]:</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> client_llmlab.embeddings.create(model<span class="op">=</span>emb_model, <span class="bu">input</span><span class="op">=</span><span class="va">self</span>.text)</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.vector <span class="op">=</span> response.data[<span class="dv">0</span>].embedding</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.vector</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_qdrant_point(<span class="va">self</span>) <span class="op">-&gt;</span> PointStruct:</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.vector <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Vector is missing for code </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>code<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> PointStruct(</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>            <span class="bu">id</span><span class="op">=</span><span class="bu">str</span>(uuid5(NACE_NAMESPACE, <span class="va">self</span>.code)),</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>            vector<span class="op">=</span><span class="va">self</span>.vector,</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>            payload<span class="op">=</span>{</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>                <span class="st">"code"</span>: <span class="va">self</span>.code,</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>                <span class="st">"level"</span>: <span class="va">self</span>.level,</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>                <span class="st">"parent_code"</span>: <span class="va">self</span>.parent_code,</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>                <span class="st">"text"</span>: <span class="va">self</span>.text,</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>            },</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>nace_documents <span class="op">=</span> [NaceDocument.from_raw(raw) <span class="cf">for</span> raw <span class="kw">in</span> nace]</span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Built </span><span class="sc">{</span><span class="bu">len</span>(nace_documents)<span class="sc">}</span><span class="ss"> NaceDocument objects"</span>)</span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Example text (used as embedding input):</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nace_documents[<span class="dv">50</span>].text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Built 1047 NaceDocument objects
 
@@ -612,40 +646,40 @@ This class excludes:
 <section id="create-the-qdrant-collection" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="create-the-qdrant-collection"><span class="header-section-number">3.4</span> Create the Qdrant collection</h2>
 <div id="create-collection" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.models <span class="im">import</span> Distance, VectorParams</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>EMB_MODEL <span class="op">=</span> <span class="st">"qwen3-embedding-8b"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>EMB_DIM <span class="op">=</span> <span class="dv">4096</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>COLLECTION_NAME <span class="op">=</span> <span class="st">"nace-collection"</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> client_qdrant.collection_exists(collection_name<span class="op">=</span>COLLECTION_NAME):</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    client_qdrant.delete_collection(collection_name<span class="op">=</span>COLLECTION_NAME)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>client_qdrant.create_collection(</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span>COLLECTION_NAME,</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    vectors_config<span class="op">=</span>VectorParams(size<span class="op">=</span>EMB_DIM, distance<span class="op">=</span>Distance.COSINE),</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Collection '</span><span class="sc">{</span>COLLECTION_NAME<span class="sc">}</span><span class="ss">' created (</span><span class="sc">{</span>EMB_DIM<span class="sc">}</span><span class="ss">-dim, cosine)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qdrant_client.models <span class="im">import</span> Distance, VectorParams</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>EMB_MODEL <span class="op">=</span> <span class="st">"qwen3-embedding-8b"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>EMB_DIM <span class="op">=</span> <span class="dv">4096</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>COLLECTION_NAME <span class="op">=</span> <span class="st">"nace-collection"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> client_qdrant.collection_exists(collection_name<span class="op">=</span>COLLECTION_NAME):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    client_qdrant.delete_collection(collection_name<span class="op">=</span>COLLECTION_NAME)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>client_qdrant.create_collection(</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    collection_name<span class="op">=</span>COLLECTION_NAME,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    vectors_config<span class="op">=</span>VectorParams(size<span class="op">=</span>EMB_DIM, distance<span class="op">=</span>Distance.COSINE),</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Collection '</span><span class="sc">{</span>COLLECTION_NAME<span class="sc">}</span><span class="ss">' created (</span><span class="sc">{</span>EMB_DIM<span class="sc">}</span><span class="ss">-dim, cosine)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="embed-every-entry-and-upload-to-qdrant" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="embed-every-entry-and-upload-to-qdrant"><span class="header-section-number">3.5</span> Embed every entry and upload to Qdrant</h2>
 <p><code>upsert</code> is idempotent on the deterministic UUID, so re-running this cell after a failure does not create duplicates.</p>
 <div id="embed-and-upsert" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> more_itertools <span class="im">import</span> chunked</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> tqdm(nace_documents, desc<span class="op">=</span><span class="st">"Embedding"</span>, unit<span class="op">=</span><span class="st">"doc"</span>):</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    doc.get_embedding(client_llmlab, EMB_MODEL)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>nace_points <span class="op">=</span> [doc.to_qdrant_point() <span class="cf">for</span> doc <span class="kw">in</span> nace_documents]</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch <span class="kw">in</span> tqdm(<span class="bu">list</span>(chunked(nace_points, BATCH_SIZE)), desc<span class="op">=</span><span class="st">"Uploading"</span>, unit<span class="op">=</span><span class="st">"batch"</span>):</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    client_qdrant.upsert(collection_name<span class="op">=</span>COLLECTION_NAME, points<span class="op">=</span>batch)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Collection size: </span><span class="sc">{</span>client_qdrant<span class="sc">.</span>count(collection_name<span class="op">=</span>COLLECTION_NAME)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> more_itertools <span class="im">import</span> chunked</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> tqdm(nace_documents, desc<span class="op">=</span><span class="st">"Embedding"</span>, unit<span class="op">=</span><span class="st">"doc"</span>):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    doc.get_embedding(client_llmlab, EMB_MODEL)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>nace_points <span class="op">=</span> [doc.to_qdrant_point() <span class="cf">for</span> doc <span class="kw">in</span> nace_documents]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch <span class="kw">in</span> tqdm(<span class="bu">list</span>(chunked(nace_points, BATCH_SIZE)), desc<span class="op">=</span><span class="st">"Uploading"</span>, unit<span class="op">=</span><span class="st">"batch"</span>):</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    client_qdrant.upsert(collection_name<span class="op">=</span>COLLECTION_NAME, points<span class="op">=</span>batch)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Collection size: </span><span class="sc">{</span>client_qdrant<span class="sc">.</span>count(collection_name<span class="op">=</span>COLLECTION_NAME)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -667,126 +701,128 @@ Note
 <section id="global-parameters-and-prompt" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="global-parameters-and-prompt"><span class="header-section-number">4.1</span> Global parameters and prompt</h2>
 <div id="quarto-params" class="cell" data-tags="[&quot;parameters&quot;]" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>SAMPLE_SIZE <span class="op">=</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>SAMPLE_SIZE <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>SAMPLE_SEED <span class="op">=</span> <span class="dv">42</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="params" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>EMB_MODEL_NAME <span class="op">=</span> <span class="st">"qwen3-embedding-8b"</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>GEN_MODEL_NAME <span class="op">=</span> <span class="st">"gemma4-26b-moe"</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>RETRIEVER_LIMIT <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>TEMPERATURE <span class="op">=</span> <span class="fl">0.1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>GEN_MODEL_NAME <span class="op">=</span> <span class="st">"gemma4-26b-moe"</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>RETRIEVER_LIMIT <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>TEMPERATURE <span class="op">=</span> <span class="fl">0.1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>A recodification prompt has three jobs: pin the task to NACE 2.1, constrain the output to the retrieved candidates, and force a JSON shape so parsing is deterministic.</p>
 <div id="prompt-template" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>SYSTEM_PROMPT <span class="op">=</span> <span class="st">"""</span><span class="op">\</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">You are an expert classifier for the NACE 2.1 nomenclature (Statistical Classification of Economic Activities in the European Community, revision 2.1).</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">You are given a free-text description of an economic activity that needs to be recoded into NACE 2.1, together with a shortlist of candidate NACE 2.1 codes retrieved by a semantic search engine. Your job is to pick the single most appropriate code from the candidates, or to declare the activity not codable if the description is too ambiguous.</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">Always reply with a valid JSON object matching the requested schema. No explanations, no extra text.</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>USER_PROMPT_TEMPLATE <span class="op">=</span> <span class="st">"""</span><span class="op">\</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="st">## Activity to recode in NACE 2.1</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="sc">{activity}</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="st">## Candidate NACE 2.1 codes and their explanatory notes</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="sc">{proposed_nace_descriptions}</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="st">## Rules</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="st">- Pick exactly one code from this list: [</span><span class="sc">{proposed_nace_codes}</span><span class="st">]. Do not invent codes outside the list.</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="st">- If several activities are mentioned, only consider the first one.</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="st">- If the description is too vague to decide, return `nace_code: null` and `codable: false`.</span></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="st">## Output (valid JSON only)</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="sc">{{</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="st">  "nace_code": "&lt;one code from the candidate list, or null&gt;",</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="st">  "codable": &lt;true | false&gt;,</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="st">  "confidence": &lt;float between 0.0 and 1.0&gt;</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="sc">}}</span></span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>SYSTEM_PROMPT <span class="op">=</span> <span class="st">"""</span><span class="op">\</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">You are an expert classifier for the NACE 2.1 nomenclature (Statistical Classification of Economic Activities in the European Community, revision 2.1).</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">You are given a free-text description of an economic activity that needs to be recoded into NACE 2.1, together with a shortlist of candidate NACE 2.1 codes retrieved by a semantic search engine. Your job is to pick the single most appropriate code from the candidates, or to declare the activity not codable if the description is too ambiguous.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">Always reply with a valid JSON object matching the requested schema. No explanations, no extra text.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="st">## Output (valid JSON only)</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="sc">{{</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="st">  "nace_code": "&lt;one code from the candidate list, or null&gt;",</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="st">  "codable": &lt;true | false&gt;,</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="st">  "confidence": &lt;float between 0.0 and 1.0&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="sc">}}</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>USER_PROMPT_TEMPLATE <span class="op">=</span> <span class="st">"""</span><span class="op">\</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="st">## Activity to recode in NACE 2.1</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="sc">{activity}</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="st">## Candidate NACE 2.1 codes and their explanatory notes</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="sc">{proposed_nace_descriptions}</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="st">## Rules</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="st">- Pick exactly one code from this list: [</span><span class="sc">{proposed_nace_codes}</span><span class="st">]. Do not invent codes outside the list.</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="st">- If several activities are mentioned, only consider the first one.</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="st">- If the description is too vague to decide, return `nace_code: null` and `codable: false`.</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="pipeline-function" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="pipeline-function"><span class="header-section-number">4.2</span> Pipeline function</h2>
 <div id="pipeline-function" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_rag_pipeline(activity: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [1] Embed</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    embedding <span class="op">=</span> client_llmlab.embeddings.create(</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span>EMB_MODEL_NAME, <span class="bu">input</span><span class="op">=</span>activity</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    ).data[<span class="dv">0</span>].embedding</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [2] Retrieve</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> client_qdrant.query_points(</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        collection_name<span class="op">=</span>COLLECTION_NAME, query<span class="op">=</span>embedding, limit<span class="op">=</span>RETRIEVER_LIMIT</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    codes_retrieved, descriptions_retrieved <span class="op">=</span> [], []</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> point <span class="kw">in</span> points.model_dump()[<span class="st">"points"</span>]:</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        codes_retrieved.append(point[<span class="st">"payload"</span>][<span class="st">"code"</span>])</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        descriptions_retrieved.append(point[<span class="st">"payload"</span>][<span class="st">"text"</span>])</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [3] Prompt</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    user_prompt <span class="op">=</span> USER_PROMPT_TEMPLATE.<span class="bu">format</span>(</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        activity<span class="op">=</span>activity,</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>        proposed_nace_descriptions<span class="op">=</span><span class="st">"## "</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">## "</span>.join(descriptions_retrieved),</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        proposed_nace_codes<span class="op">=</span><span class="st">", "</span>.join(codes_retrieved),</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [4] Generate</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> client_llmlab.chat.completions.create(</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span>GEN_MODEL_NAME,</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        messages<span class="op">=</span>[</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: SYSTEM_PROMPT},</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: user_prompt},</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>        temperature<span class="op">=</span>TEMPERATURE,</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>        response_format<span class="op">=</span>{<span class="st">"type"</span>: <span class="st">"json_object"</span>},</span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> json.loads(response.choices[<span class="dv">0</span>].message.content)</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    result[<span class="st">"retrieved_codes"</span>] <span class="op">=</span> codes_retrieved</span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_rag_pipeline(activity: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [1] Embed</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    embedding <span class="op">=</span> client_llmlab.embeddings.create(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span>EMB_MODEL_NAME, <span class="bu">input</span><span class="op">=</span>activity</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    ).data[<span class="dv">0</span>].embedding</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [2] Retrieve</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> client_qdrant.query_points(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        collection_name<span class="op">=</span>COLLECTION_NAME, query<span class="op">=</span>embedding, limit<span class="op">=</span>RETRIEVER_LIMIT</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    codes_retrieved, descriptions_retrieved <span class="op">=</span> [], []</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> point <span class="kw">in</span> points.model_dump()[<span class="st">"points"</span>]:</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        codes_retrieved.append(point[<span class="st">"payload"</span>][<span class="st">"code"</span>])</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        descriptions_retrieved.append(point[<span class="st">"payload"</span>][<span class="st">"text"</span>])</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [3] Prompt</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    user_prompt <span class="op">=</span> USER_PROMPT_TEMPLATE.<span class="bu">format</span>(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        activity<span class="op">=</span>activity,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        proposed_nace_descriptions<span class="op">=</span><span class="st">"## "</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">## "</span>.join(descriptions_retrieved),</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        proposed_nace_codes<span class="op">=</span><span class="st">", "</span>.join(codes_retrieved),</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [4] Generate</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> client_llmlab.chat.completions.create(</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span>GEN_MODEL_NAME,</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>        messages<span class="op">=</span>[</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: SYSTEM_PROMPT},</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: user_prompt},</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>        temperature<span class="op">=</span>TEMPERATURE,</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>        response_format<span class="op">=</span>{<span class="st">"type"</span>: <span class="st">"json_object"</span>},</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> json.loads(response.choices[<span class="dv">0</span>].message.content)</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    result[<span class="st">"retrieved_codes"</span>] <span class="op">=</span> codes_retrieved</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="load-the-evaluation-dataset" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="load-the-evaluation-dataset"><span class="header-section-number">4.3</span> Load the evaluation dataset</h2>
 <p>English activity labels with their reference NACE 2.1 code, taken from the same dataset as funathon-project2 (labels generated by an agentic AI system at low temperature).</p>
 <div id="load-data" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(database<span class="op">=</span><span class="st">":memory:"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"INSTALL httpfs; LOAD httpfs;"</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>annotations <span class="op">=</span> con.sql(<span class="ss">f"""</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT *</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM read_parquet(</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="ss">      'https://minio.lab.sspcloud.fr/projet-formation/diffusion/funathon/2026/project2/generation_None_temp08.parquet'</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="ss">    )</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="ss">    USING SAMPLE </span><span class="sc">{</span>SAMPLE_SIZE<span class="sc">}</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span>).to_df().to_dict(orient<span class="op">=</span><span class="st">"records"</span>)</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(annotations)<span class="sc">}</span><span class="ss"> (label, reference NACE 2.1 code) pairs"</span>)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Example:"</span>, annotations[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(database<span class="op">=</span><span class="st">":memory:"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"INSTALL httpfs; LOAD httpfs;"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>annotations <span class="op">=</span> con.sql(<span class="ss">f"""</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT *</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM read_parquet(</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="ss">      'https://minio.lab.sspcloud.fr/projet-formation/diffusion/funathon/2026/project2/generation_None_temp08.parquet'</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="ss">    )</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="ss">    USING SAMPLE </span><span class="sc">{</span>SAMPLE_SIZE<span class="sc">}</span><span class="ss"> (reservoir, </span><span class="sc">{</span>SAMPLE_SEED<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span>).to_df().to_dict(orient<span class="op">=</span><span class="st">"records"</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(annotations)<span class="sc">}</span><span class="ss"> (label, reference NACE 2.1 code) pairs"</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Example:"</span>, annotations[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded 100 (label, reference NACE 2.1 code) pairs
-Example: {'code': '68.20', 'name': 'Rental and operating of own or leased real estate', 'label': 'Data centre space provision'}</code></pre>
+Example: {'code': '69.10', 'name': 'Legal activities', 'label': 'Representation during conflict proceedings'}</code></pre>
 </div>
 </div>
 <div id="annotation-vs-nomenclature-levels" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>code_to_level <span class="op">=</span> {doc.code: doc.level <span class="cf">for</span> doc <span class="kw">in</span> nace_documents}</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>annotation_levels <span class="op">=</span> Counter(code_to_level[row[<span class="st">"code"</span>]] <span class="cf">for</span> row <span class="kw">in</span> annotations)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>nomenclature_levels <span class="op">=</span> Counter(doc.level <span class="cf">for</span> doc <span class="kw">in</span> nace_documents)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"NACE level of the *reference* codes in the evaluation dataset:"</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(annotation_levels.items())))</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">NACE level of the codes indexed in Qdrant (the whole nomenclature):"</span>)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(nomenclature_levels.items())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>code_to_level <span class="op">=</span> {doc.code: doc.level <span class="cf">for</span> doc <span class="kw">in</span> nace_documents}</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>annotation_levels <span class="op">=</span> Counter(code_to_level[row[<span class="st">"code"</span>]] <span class="cf">for</span> row <span class="kw">in</span> annotations)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>nomenclature_levels <span class="op">=</span> Counter(doc.level <span class="cf">for</span> doc <span class="kw">in</span> nace_documents)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"NACE level of the *reference* codes in the evaluation dataset:"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(annotation_levels.items())))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">NACE level of the codes indexed in Qdrant (the whole nomenclature):"</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">dict</span>(<span class="bu">sorted</span>(nomenclature_levels.items())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>NACE level of the *reference* codes in the evaluation dataset:
 {4: 100}
@@ -810,18 +846,24 @@ Important
 </div>
 </div>
 <div id="single-child-parents" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>children <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> nace_documents:</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> doc.parent_code:</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        children[doc.parent_code].append(doc.code)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>level3_docs <span class="op">=</span> [doc <span class="cf">for</span> doc <span class="kw">in</span> nace_documents <span class="cf">if</span> doc.level <span class="op">==</span> <span class="dv">3</span>]</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>level3_single_child <span class="op">=</span> [doc.code <span class="cf">for</span> doc <span class="kw">in</span> level3_docs <span class="cf">if</span> <span class="bu">len</span>(children.get(doc.code, [])) <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(level3_single_child)<span class="sc">}</span><span class="ss"> / </span><span class="sc">{</span><span class="bu">len</span>(level3_docs)<span class="sc">}</span><span class="ss"> level-3 codes have exactly one level-4 child"</span>)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Examples:"</span>, level3_single_child[:<span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>children <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> nace_documents:</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> doc.parent_code:</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        children[doc.parent_code].append(doc.code)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>level3_docs <span class="op">=</span> [doc <span class="cf">for</span> doc <span class="kw">in</span> nace_documents <span class="cf">if</span> doc.level <span class="op">==</span> <span class="dv">3</span>]</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>level3_single_child <span class="op">=</span> [doc.code <span class="cf">for</span> doc <span class="kw">in</span> level3_docs <span class="cf">if</span> <span class="bu">len</span>(children.get(doc.code, [])) <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># A level-3 code with a single level-4 child (e.g. `01.3` -&gt; `01.30`) denotes the same</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"># activity as that child — the trailing "0" adds no real subdivision. Map both ways so</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># the accuracy calculation in §5 can treat the pair as equal.</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>SINGLE_CHILD_EQUIVALENTS <span class="op">=</span> {parent: children[parent][<span class="dv">0</span>] <span class="cf">for</span> parent <span class="kw">in</span> level3_single_child}</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>SINGLE_CHILD_EQUIVALENTS.update({child: parent <span class="cf">for</span> parent, child <span class="kw">in</span> SINGLE_CHILD_EQUIVALENTS.items()})</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(level3_single_child)<span class="sc">}</span><span class="ss"> / </span><span class="sc">{</span><span class="bu">len</span>(level3_docs)<span class="sc">}</span><span class="ss"> level-3 codes have exactly one level-4 child"</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Examples:"</span>, level3_single_child[:<span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>143 / 287 level-3 codes have exactly one level-4 child
 Examples: ['01.3', '01.5', '01.7', '02.1', '02.2']</code></pre>
@@ -838,7 +880,7 @@ Important
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Some “parent vs.&nbsp;child” mismatches are not mismatches at all.</strong> As shown above, <strong>143 of the 287 level-3 codes (50%) have exactly one level-4 child</strong> — e.g.&nbsp;<code>01.3</code> only ever expands to <code>01.30</code>. For these, the level-3 code and its level-4 child denote the <em>same</em> real-world activity: predicting the parent is not an approximation, it is the right answer written one level up.</p>
-<p>Counting these as pipeline errors artificially deflates the accuracy figures below. Before trusting an aggregate accuracy number for a use case where this matters, prune the nomenclature and/or the predicted codes: collapse parent codes with a single descendant onto that descendant (or, symmetrically, treat a prediction as correct whenever it is an ancestor of the true code <em>and</em> that ancestor has no other level-4 descendant). This tutorial does not implement that pruning — the metrics in §5 use plain string equality — but keep this caveat in mind when reading the results.</p>
+<p>Counting these as pipeline errors would artificially deflate the accuracy figures below. <code>SINGLE_CHILD_EQUIVALENTS</code> above maps each such pair onto one another, and §5’s accuracy calculation treats them as equal instead of relying on plain string equality.</p>
 </div>
 </div>
 </section>
@@ -846,30 +888,130 @@ Important
 <h2 data-number="4.4" class="anchored" data-anchor-id="batch-inference-on-the-sample"><span class="header-section-number">4.4</span> Batch inference on the sample</h2>
 <p>The loop below calls <code>run_rag_pipeline</code> sequentially on each activity label of the sampled evaluation set, catching per-row errors so a single failed call does not stop the whole batch, and collects every prediction into a <code>pandas</code> DataFrame used for scoring in §5.</p>
 <div id="cell-batch-inference" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> tqdm(annotations, desc<span class="op">=</span><span class="st">"Recoding"</span>, unit<span class="op">=</span><span class="st">"label"</span>):</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> run_rag_pipeline(row[<span class="st">"label"</span>])</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> {<span class="st">"nace_code"</span>: <span class="va">None</span>, <span class="st">"codable"</span>: <span class="va">False</span>, <span class="st">"confidence"</span>: <span class="fl">0.0</span>, <span class="st">"retrieved_codes"</span>: []}</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        tqdm.write(<span class="ss">f"⚠ Error on '</span><span class="sc">{</span>row[<span class="st">'label'</span>][:<span class="dv">60</span>]<span class="sc">}</span><span class="ss">...': </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    records.append({</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"activity"</span>: row[<span class="st">"label"</span>],</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"true_code"</span>: row[<span class="st">"code"</span>],</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred_code"</span>: pred.get(<span class="st">"nace_code"</span>),</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codable"</span>: pred.get(<span class="st">"codable"</span>, <span class="va">False</span>),</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"confidence"</span>: pred.get(<span class="st">"confidence"</span>, <span class="fl">0.0</span>),</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"retrieved_codes"</span>: pred.get(<span class="st">"retrieved_codes"</span>, []),</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(records)</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(results)<span class="sc">}</span><span class="ss"> activities processed"</span>)</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>results.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> tqdm(annotations, desc<span class="op">=</span><span class="st">"Recoding"</span>, unit<span class="op">=</span><span class="st">"label"</span>):</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> run_rag_pipeline(row[<span class="st">"label"</span>])</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> {<span class="st">"nace_code"</span>: <span class="va">None</span>, <span class="st">"codable"</span>: <span class="va">False</span>, <span class="st">"confidence"</span>: <span class="fl">0.0</span>, <span class="st">"retrieved_codes"</span>: []}</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        tqdm.write(<span class="ss">f"⚠ Error on '</span><span class="sc">{</span>row[<span class="st">'label'</span>][:<span class="dv">60</span>]<span class="sc">}</span><span class="ss">...': </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    records.append({</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"activity"</span>: row[<span class="st">"label"</span>],</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"true_code"</span>: row[<span class="st">"code"</span>],</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pred_code"</span>: pred.get(<span class="st">"nace_code"</span>),</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"codable"</span>: pred.get(<span class="st">"codable"</span>, <span class="va">False</span>),</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"confidence"</span>: pred.get(<span class="st">"confidence"</span>, <span class="fl">0.0</span>),</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"retrieved_codes"</span>: pred.get(<span class="st">"retrieved_codes"</span>, []),</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(records)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(results)<span class="sc">}</span><span class="ss"> activities processed"</span>)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>results.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
+<pre><code>⚠ Error on 'Representation during conflict proceedings...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Administration of competitive sports...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Electric vehicle charger point installation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Operation of non-residential building portfolios...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Temporary housing for educational purposes...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Cost reduction strategy implementation support...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Bovine breeding for milk production...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Space rental for animal care businesses...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Securities portfolio management services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Organizational structure and effectiveness reviews...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Electrical apparatus upkeep services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Executive advisory and guidance services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Promotional campaign execution support...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Facial rejuvenation techniques...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Consumer behavior analysis and reporting...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Magazine publishing operations...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Long-distance freight carriage...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Management systems certification processes...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Long-term property letting arrangements...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Budgetary planning and control expertise...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Industrial facility space provision...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Self-catering visitor lodging...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Regional corporate headquarters operations...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Roof safety device deployment...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Fighting bull propagation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Commercial wellness experiences...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'On-site computer equipment maintenance...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Wholesale trade of home textile materials....': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Plastering for residential construction...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Procurement process improvement services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Data network cabling installation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Business process improvement consultancy...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Comprehensive advertising agency services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Rental income from owned real estate...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Industrial process equipment commissioning...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Residential real estate portfolio operation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Excavation groundwork and leveling...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Satellite antenna positioning and connection...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Repair of automotive seating components...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Bakery product sales to consumers...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Employee benefits insurance representation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Instruction in techniques for emotional regulation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Specialized equipment sanitation services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Preventative care by general physicians...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Data centre space provision...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Real-time spoken language interpretation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Lease administration for building owners...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Technology roadmap and implementation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'IT equipment troubleshooting and repair...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Company restructuring and turnaround management...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Electric vehicle supply equipment installation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Non-gemstone jewellery assembly...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Process optimization and workflow redesign...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Comprehensive primary care management...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'On-site carpentry for interior spaces...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Habitat creation and species support...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Client workforce supplementation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Specialized computer systems servicing...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Investment portfolio strategic guidance...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Program development for specific needs...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Short-stay residential rental operations...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Commercial video production services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Provision of burial plot spaces...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Application development and programming...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Provision of temporary lodging facilities....': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Custom software solution development...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Business process improvement initiatives...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Heavy goods road transportation...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Securities safekeeping services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Operational efficiency consulting services....': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Long-distance rail cargo delivery...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Business formation legal work...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Fluid milk treatment for extended shelf life...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Diverse product retail commerce...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Management of rental housing properties...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Roof space leasing for energy infrastructure...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Data processing infrastructure certification...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Self-owned building rental activities...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Detailed site investigations and analysis...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Expert guidance in creative disciplines...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Production of fruit-based food commodities...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Public affairs and government relations...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Leased property administration...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Specialized personal assistance services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Top-level corporate governance...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Emergency preparedness instruction...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Directorate mandate support services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Word processing and formatting operations...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Real estate portfolio management...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Luggage and leather article refurbishment...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Large-scale pastry preservation processes...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Corporate restructuring and performance analysis...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Specialized technical advisory services...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Data center operational oversight...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Individualized animal companionship support...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Commercial real estate portfolio management...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Architectural design and technical studies...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Real estate portfolio management...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Specialized engineering design solutions...': name 'EMB_MODEL_NAME' is not defined
+⚠ Error on 'Retail of personal attire...': name 'EMB_MODEL_NAME' is not defined
+
 100 activities processed</code></pre>
 </div>
 <div id="batch-inference" class="cell-output cell-output-display" data-execution_count="13">
@@ -891,48 +1033,48 @@ Important
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>Data centre space provision</td>
-<td>68.20</td>
-<td>63.1</td>
-<td>True</td>
-<td>1.00</td>
-<td>[63.1, 62.2, 62.9, 81.1, 55.1]</td>
+<td>Representation during conflict proceedings</td>
+<td>69.10</td>
+<td>None</td>
+<td>False</td>
+<td>0.0</td>
+<td>[]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
-<td>Installation of heating and cooling infrastruc...</td>
-<td>43.22</td>
-<td>43.22</td>
-<td>True</td>
-<td>1.00</td>
-<td>[43.2, 35.3, 43.22, 35, 33.2]</td>
+<td>Administration of competitive sports</td>
+<td>93.12</td>
+<td>None</td>
+<td>False</td>
+<td>0.0</td>
+<td>[]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
-<td>Compliance training for agrochemicals</td>
-<td>85.59</td>
-<td>NaN</td>
+<td>Electric vehicle charger point installation</td>
+<td>43.21</td>
+<td>None</td>
 <td>False</td>
-<td>0.00</td>
-<td>[20.2, 20.20, 21.2, 01.5, 10.9]</td>
+<td>0.0</td>
+<td>[]</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
-<td>Fiduciary management of assets</td>
-<td>66.30</td>
-<td>66.30</td>
-<td>True</td>
-<td>0.95</td>
-<td>[66.3, 66.30, 64.32, 68, 70.2]</td>
+<td>Operation of non-residential building portfolios</td>
+<td>68.20</td>
+<td>None</td>
+<td>False</td>
+<td>0.0</td>
+<td>[]</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">4</th>
-<td>Fabrication of domestic crystal products</td>
-<td>23.13</td>
-<td>23.1</td>
-<td>True</td>
-<td>1.00</td>
-<td>[32.9, 11.0, 23.2, 23.1, 20.4]</td>
+<td>Temporary housing for educational purposes</td>
+<td>55.90</td>
+<td>None</td>
+<td>False</td>
+<td>0.0</td>
+<td>[]</td>
 </tr>
 </tbody>
 </table>
@@ -961,57 +1103,64 @@ Tip
 </div>
 </div>
 <div id="eval-columns" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"retriever_hit"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"true_code"</span>] <span class="kw">in</span> row[<span class="st">"retrieved_codes"</span>], axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"pipeline_correct"</span>] <span class="op">=</span> results[<span class="st">"pred_code"</span>] <span class="op">==</span> results[<span class="st">"true_code"</span>]</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"llm_correct_given_retriever"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"pipeline_correct"</span>] <span class="cf">if</span> row[<span class="st">"retriever_hit"</span>] <span class="cf">else</span> <span class="va">None</span>, axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _equivalent_codes(code):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""A code, plus its single-child/parent equivalent (see SINGLE_CHILD_EQUIVALENTS) if it has one."""</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    equivalent <span class="op">=</span> SINGLE_CHILD_EQUIVALENTS.get(code)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {code, equivalent} <span class="cf">if</span> equivalent <span class="cf">else</span> {code}</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"retriever_hit"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: <span class="bu">bool</span>(_equivalent_codes(row[<span class="st">"true_code"</span>]) <span class="op">&amp;</span> <span class="bu">set</span>(row[<span class="st">"retrieved_codes"</span>])), axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"pipeline_correct"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"pred_code"</span>] <span class="kw">in</span> _equivalent_codes(row[<span class="st">"true_code"</span>]), axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"llm_correct_given_retriever"</span>] <span class="op">=</span> results.<span class="bu">apply</span>(</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: row[<span class="st">"pipeline_correct"</span>] <span class="cf">if</span> row[<span class="st">"retriever_hit"</span>] <span class="cf">else</span> <span class="va">None</span>, axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="eval-metrics" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>n_total <span class="op">=</span> <span class="bu">len</span>(results)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>retriever_accuracy <span class="op">=</span> results[<span class="st">"retriever_hit"</span>].mean()</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>llm_accuracy <span class="op">=</span> results.loc[results[<span class="st">"retriever_hit"</span>], <span class="st">"pipeline_correct"</span>].mean()</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>pipeline_accuracy <span class="op">=</span> results[<span class="st">"pipeline_correct"</span>].mean()</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>n_retriever_miss <span class="op">=</span> (<span class="op">~</span>results[<span class="st">"retriever_hit"</span>]).<span class="bu">sum</span>()</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>n_llm_miss <span class="op">=</span> (results[<span class="st">"retriever_hit"</span>] <span class="op">&amp;</span> <span class="op">~</span>results[<span class="st">"pipeline_correct"</span>]).<span class="bu">sum</span>()</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>n_correct <span class="op">=</span> <span class="bu">int</span>(results[<span class="st">"pipeline_correct"</span>].<span class="bu">sum</span>())</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"        RAG RECODIFICATION: NACE 2.1"</span>)</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Activities processed         : </span><span class="sc">{</span>n_total<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Correctly recoded            : </span><span class="sc">{</span>n_correct<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever@</span><span class="sc">{</span>RETRIEVER_LIMIT<span class="sc">}</span><span class="ss"> accuracy         : </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM accuracy (conditional)   : </span><span class="sc">{</span>llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Pipeline accuracy            : </span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever errors             : </span><span class="sc">{</span>n_retriever_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_retriever_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM errors                   : </span><span class="sc">{</span>n_llm_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_llm_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="ch">\n</span><span class="ss">Cross-check: Retriever@k × LLM = </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.3f}</span><span class="ss"> × </span><span class="sc">{</span>llm_accuracy<span class="sc">:.3f}</span><span class="ss">"</span></span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f" = </span><span class="sc">{</span>retriever_accuracy <span class="op">*</span> llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>n_total <span class="op">=</span> <span class="bu">len</span>(results)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>retriever_accuracy <span class="op">=</span> results[<span class="st">"retriever_hit"</span>].mean()</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>llm_accuracy <span class="op">=</span> results.loc[results[<span class="st">"retriever_hit"</span>], <span class="st">"pipeline_correct"</span>].mean()</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>pipeline_accuracy <span class="op">=</span> results[<span class="st">"pipeline_correct"</span>].mean()</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>n_retriever_miss <span class="op">=</span> (<span class="op">~</span>results[<span class="st">"retriever_hit"</span>]).<span class="bu">sum</span>()</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>n_llm_miss <span class="op">=</span> (results[<span class="st">"retriever_hit"</span>] <span class="op">&amp;</span> <span class="op">~</span>results[<span class="st">"pipeline_correct"</span>]).<span class="bu">sum</span>()</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>n_correct <span class="op">=</span> <span class="bu">int</span>(results[<span class="st">"pipeline_correct"</span>].<span class="bu">sum</span>())</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"        RAG RECODIFICATION: NACE 2.1"</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Activities processed         : </span><span class="sc">{</span>n_total<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Correctly recoded            : </span><span class="sc">{</span>n_correct<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever@</span><span class="sc">{</span>RETRIEVER_LIMIT<span class="sc">}</span><span class="ss"> accuracy         : </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM accuracy (conditional)   : </span><span class="sc">{</span>llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Pipeline accuracy            : </span><span class="sc">{</span>pipeline_accuracy<span class="sc">:.1%}</span><span class="ss">"</span>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Retriever errors             : </span><span class="sc">{</span>n_retriever_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_retriever_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  LLM errors                   : </span><span class="sc">{</span>n_llm_miss<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>n_llm_miss <span class="op">/</span> n_total<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">52</span>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="ch">\n</span><span class="ss">Cross-check: Retriever@k × LLM = </span><span class="sc">{</span>retriever_accuracy<span class="sc">:.3f}</span><span class="ss"> × </span><span class="sc">{</span>llm_accuracy<span class="sc">:.3f}</span><span class="ss">"</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f" = </span><span class="sc">{</span>retriever_accuracy <span class="op">*</span> llm_accuracy<span class="sc">:.1%}</span><span class="ss">"</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>====================================================
         RAG RECODIFICATION: NACE 2.1
 ====================================================
   Activities processed         : 100
-  Correctly recoded            : 45  (45.0%)
+  Correctly recoded            : 0  (0.0%)
 
-  Retriever@5 accuracy         : 50.0%
-  LLM accuracy (conditional)   : 88.0%
-  Pipeline accuracy            : 45.0%
+  Retriever@5 accuracy         : 0.0%
+  LLM accuracy (conditional)   : nan%
+  Pipeline accuracy            : 0.0%
 
-  Retriever errors             : 50  (50.0%)
-  LLM errors                   : 6  (6.0%)
+  Retriever errors             : 100  (100.0%)
+  LLM errors                   : 0  (0.0%)
 ====================================================
 
-Cross-check: Retriever@k × LLM = 0.500 × 0.880 = 44.0%</code></pre>
+Cross-check: Retriever@k × LLM = 0.000 × nan = nan%</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1030,61 +1179,57 @@ Note
 <section id="precisioncoverage-trade-off" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="precisioncoverage-trade-off"><span class="header-section-number">5.1</span> Precision–coverage trade-off</h2>
 <p>The LLM returns a confidence score. Filtering on it raises precision but lowers coverage (more labels left for manual review).</p>
-<div id="precision-coverage" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    ggplot, aes, geom_boxplot, geom_line, geom_point,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    scale_color_manual, scale_linetype_manual, labs, theme_minimal,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>results_plot <span class="op">=</span> results.assign(</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    correctness<span class="op">=</span>results[<span class="st">"pipeline_correct"</span>].<span class="bu">map</span>({<span class="va">False</span>: <span class="st">"Incorrect"</span>, <span class="va">True</span>: <span class="st">"Correct"</span>})</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> (</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    ggplot(results_plot, aes(x<span class="op">=</span><span class="st">"correctness"</span>, y<span class="op">=</span><span class="st">"confidence"</span>))</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_boxplot()</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Confidence by pipeline correctness"</span>, x<span class="op">=</span><span class="st">"Prediction correct"</span>, y<span class="op">=</span><span class="st">"Confidence"</span>)</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme_minimal()</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> [i <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]:</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> results[results[<span class="st">"confidence"</span>] <span class="op">&gt;=</span> t]</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Precision"</span>, <span class="st">"value"</span>: subset[<span class="st">"pipeline_correct"</span>].mean()})</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Coverage"</span>,  <span class="st">"value"</span>: <span class="bu">len</span>(subset) <span class="op">/</span> <span class="bu">len</span>(results)})</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>df_thresh <span class="op">=</span> pd.DataFrame(rows, columns<span class="op">=</span>[<span class="st">"threshold"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>])</span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>display(p1)</span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df_thresh.empty:</span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No confidence threshold yielded a non-empty subset; skipping precision/coverage plot."</span>)</span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>    p2 <span class="op">=</span> (</span>
-<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>        ggplot(df_thresh, aes(x<span class="op">=</span><span class="st">"threshold"</span>, y<span class="op">=</span><span class="st">"value"</span>, color<span class="op">=</span><span class="st">"metric"</span>, linetype<span class="op">=</span><span class="st">"metric"</span>))</span>
-<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> geom_line() <span class="op">+</span> geom_point()</span>
-<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_color_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"steelblue"</span>, <span class="st">"Coverage"</span>: <span class="st">"coral"</span>})</span>
-<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_linetype_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"solid"</span>, <span class="st">"Coverage"</span>: <span class="st">"dashed"</span>})</span>
-<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Precision and coverage vs. confidence threshold"</span>,</span>
-<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>               x<span class="op">=</span><span class="st">"Confidence threshold"</span>, y<span class="op">=</span><span class="st">"Value"</span>, color<span class="op">=</span><span class="st">""</span>, linetype<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> theme_minimal()</span>
-<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>    display(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-precision-coverage" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    ggplot, aes, geom_boxplot, geom_line, geom_point,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    scale_color_manual, scale_linetype_manual, labs, theme_minimal,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>results_plot <span class="op">=</span> results.assign(</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    correctness<span class="op">=</span>results[<span class="st">"pipeline_correct"</span>].<span class="bu">map</span>({<span class="va">False</span>: <span class="st">"Incorrect"</span>, <span class="va">True</span>: <span class="st">"Correct"</span>})</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> (</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    ggplot(results_plot, aes(x<span class="op">=</span><span class="st">"correctness"</span>, y<span class="op">=</span><span class="st">"confidence"</span>))</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_boxplot()</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Confidence by pipeline correctness"</span>, x<span class="op">=</span><span class="st">"Prediction correct"</span>, y<span class="op">=</span><span class="st">"Confidence"</span>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme_minimal()</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> [i <span class="op">/</span> <span class="dv">10</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]:</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> results[results[<span class="st">"confidence"</span>] <span class="op">&gt;=</span> t]</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(subset) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Precision"</span>, <span class="st">"value"</span>: subset[<span class="st">"pipeline_correct"</span>].mean()})</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>        rows.append({<span class="st">"threshold"</span>: t, <span class="st">"metric"</span>: <span class="st">"Coverage"</span>,  <span class="st">"value"</span>: <span class="bu">len</span>(subset) <span class="op">/</span> <span class="bu">len</span>(results)})</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>df_thresh <span class="op">=</span> pd.DataFrame(rows, columns<span class="op">=</span>[<span class="st">"threshold"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>])</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>display(p1)</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df_thresh.empty:</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No confidence threshold yielded a non-empty subset; skipping precision/coverage plot."</span>)</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    p2 <span class="op">=</span> (</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        ggplot(df_thresh, aes(x<span class="op">=</span><span class="st">"threshold"</span>, y<span class="op">=</span><span class="st">"value"</span>, color<span class="op">=</span><span class="st">"metric"</span>, linetype<span class="op">=</span><span class="st">"metric"</span>))</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> geom_line() <span class="op">+</span> geom_point()</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_color_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"steelblue"</span>, <span class="st">"Coverage"</span>: <span class="st">"coral"</span>})</span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> scale_linetype_manual(values<span class="op">=</span>{<span class="st">"Precision"</span>: <span class="st">"solid"</span>, <span class="st">"Coverage"</span>: <span class="st">"dashed"</span>})</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> labs(title<span class="op">=</span><span class="st">"Precision and coverage vs. confidence threshold"</span>,</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>               x<span class="op">=</span><span class="st">"Confidence threshold"</span>, y<span class="op">=</span><span class="st">"%"</span>, color<span class="op">=</span><span class="st">""</span>, linetype<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> theme_minimal()</span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>    display(p2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" id="precision-coverage-1" width="672" height="480" class="figure-img"></a></p>
+<p><a href="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="nace-rag-tutorial_files/figure-html/precision-coverage-output-1.png" id="precision-coverage" width="672" height="480" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="nace-rag-tutorial_files/figure-html/precision-coverage-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="nace-rag-tutorial_files/figure-html/precision-coverage-output-2.png" id="precision-coverage-2" width="672" height="480" class="figure-img"></a></p>
-</figure>
-</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>No confidence threshold yielded a non-empty subset; skipping precision/coverage plot.</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
