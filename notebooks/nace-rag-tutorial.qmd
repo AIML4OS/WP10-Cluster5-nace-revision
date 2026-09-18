@@ -415,7 +415,7 @@ import json
 def run_rag_pipeline(activity: str) -> dict:
     # [1] Embed
     embedding = client_llmlab.embeddings.create(
-        model=EMB_MODEL_NAME, input=activity
+        model=EMB_MODEL, input=activity
     ).data[0].embedding
 
     # [2] Retrieve
