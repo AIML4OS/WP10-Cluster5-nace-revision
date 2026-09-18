@@ -9,14 +9,22 @@ execute:
 
 __Open this tutorial as an interactive notebook__: <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?autoLaunch=true&onyxia.friendlyName=«NACE-RAG-tutorial»&init.personalInit=«https://raw.githubusercontent.com/AIML4OS/WP10-Cluster5-nace-revision/main/sspcloud/init-trainees.sh»&init.personalInitArgs=«notebooks/nace-rag-tutorial.ipynb»&git.repository=«https://github.com/AIML4OS/WP10-Cluster5-nace-revision.git»" target="_blank" rel="noopener"><img src="https://custom-icon-badges.demolab.com/badge/SSP%20Cloud-Launch_with_VSCode-blue?logo=vsc&logoColor=white" alt="Onyxia"></a>
 
+
+![Simplified diagram of this tutorial](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/wp10-rag-tutorial.svg)
+
 ::: {.callout-tip}
 **Running the cells interactively?** A Python virtual environment has already been created for you (`WP10-Cluster5-nace-revision/.venv/bin/python`). 
 
 How to make it ?
 
 - Click the black and blue button to lauch the interactive VSCode service
-- Open the following file: "WP10-Cluster5-nace-revision/notebooks/nace-rag-tutorial.qmd"
-- Scroll down to the first code cell and run it ("Run Cell" button or Ctrl+Enter shortcut) 
+- Open the following file: "WP10-Cluster5-nace-revision/exercise.ipynb"
+- Scroll down to the first code cell and run it ("Run Cell" button or Ctrl+Enter shortcut)
+- You will be ask to select a kernel : 
+    - Choose a python environment
+    - Then, choose the .venv already prepared at the root of your filesystem (see below)
+
+![Choosing the prepared Python environment](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/choose_python_env.png)
 
 :::
 
@@ -82,7 +90,7 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 :::
 
 ::: {.callout-note}
-**Where to put `.env`.** Put `.env` at the root of this repository — whether you cloned it yourself, or launched it through the **"Open this tutorial as an interactive notebook"** button above (which downloads the notebook straight into the cloned repository folder).
+**Where to put `.env`.** Put `.env` at the root of "WP10-Cluster5-nace-repository" — whether you cloned it yourself, or launched it through the **"Open this tutorial as an interactive notebook"** button above (which downloads the .ipynb notebook straight into the cloned repository folder).
 :::
 
 ### Getting your llm.lab API key
@@ -103,23 +111,7 @@ Never commit your `.env` file. It is already listed in `.gitignore`. Leaking API
 
 ![Retrieving the Qdrant token](https://aiml4os.github.io/WP10-Cluster5-nace-revision/img/qdrant_token.png)
 
-## Loading credentials in Python
 
-```python
-from dotenv import load_dotenv
-load_dotenv()
-```
-
-To verify a variable was loaded:
-
-```python
-import os
-try:
-    QDRANT_URL = os.environ["QDRANT_URL"]
-    print("QDRANT_URL loaded successfully")
-except KeyError:
-    raise ValueError("QDRANT_URL is not set; check your .env file")
-```
 
 # Build the vector database
 
@@ -136,6 +128,14 @@ from qdrant_client import QdrantClient
 
 load_dotenv()
 
+REQUIRED_ENV_VARS = ["LLMLAB_URL", "LLMLAB_API_KEY", "QDRANT_URL", "QDRANT_API_KEY", "QDRANT_API_PORT"]
+missing_env_vars = [var for var in REQUIRED_ENV_VARS if not os.environ.get(var)]
+if missing_env_vars:
+    raise RuntimeError(
+        f"Missing environment variable(s): {', '.join(missing_env_vars)}. "
+        "Check that your .env file exists and is loaded (see the Credentials section above)."
+    )
+
 client_llmlab = OpenAI(
     base_url=os.environ["LLMLAB_URL"],
     api_key=os.environ["LLMLAB_API_KEY"],
@@ -150,6 +150,8 @@ client_qdrant = QdrantClient(
 print("Available llm.lab models:")
 for model in client_llmlab.models.list().data:
     print(f"  - {model.id}")
+
+print(f"\nQdrant reachable: {len(client_qdrant.get_collections().collections)} existing collection(s)")
 ```
 
 ## Load the NACE 2.1 nomenclature
@@ -169,10 +171,20 @@ PATH_NACE = (
 
 con = duckdb.connect(database=":memory:")
 con.execute("INSTALL httpfs; LOAD httpfs;")
-nace = con.execute(f"SELECT * FROM read_csv('{PATH_NACE}')").fetch_arrow_table().to_pylist()
+nace = con.execute(f"SELECT * FROM read_csv('{PATH_NACE}')").to_arrow_table().to_pylist()
 
-print(f"Loaded {len(nace)} NACE 2.1 entries")
-print({k: nace[22][k] for k in ("CODE", "HEADING", "LEVEL")})
+def _truncate(value, max_len=80):
+    value = "" if value is None else str(value).replace("\n", " ")
+    return value if len(value) <= max_len else value[:max_len].rstrip() + "…"
+
+print(f"Loaded {len(nace)} NACE 2.1 entries\n")
+
+example = nace[22]
+print("Example entry:")
+for key in ("CODE", "HEADING", "LEVEL", "PARENT_CODE"):
+    print(f"  {key:<12}: {example.get(key)}")
+for key in ("Includes", "IncludesAlso", "Excludes"):
+    print(f"  {key:<12}: {_truncate(example.get(key))}")
 ```
 
 ## `NaceDocument`: clean text + embedding + Qdrant point
@@ -185,11 +197,11 @@ One class carries every step from raw row to Qdrant point. The `text` field is w
 
 from dataclasses import dataclass, field
 from typing import Optional, List
-from uuid import uuid5, NAMESPACE_DNS
+from uuid import uuid5, NAMESPACE_DNS  # uuid5: makes a unique ID, always the same for the same input
 
 from qdrant_client.models import PointStruct
 
-NACE_NAMESPACE = uuid5(NAMESPACE_DNS, "nace-rev2.1")
+NACE_NAMESPACE = uuid5(NAMESPACE_DNS, "nace-rev2.1")  # NAMESPACE_DNS: just a fixed starting value uuid5 needs, its exact value doesn't matter
 
 
 def _clean(value) -> Optional[str]:
@@ -199,7 +211,7 @@ def _clean(value) -> Optional[str]:
     return cleaned or None
 
 
-@dataclass
+@dataclass  # shortcut to define a simple class that just groups values together
 class NaceDocument:
     code: str
     heading: str
@@ -212,7 +224,7 @@ class NaceDocument:
     text: str = field(init=False)
     vector: Optional[List[float]] = field(default=None, init=False)
 
-    @classmethod
+    @classmethod  # alternate constructor: gets the class (cls) instead of an instance (self)
     def from_raw(cls, raw: dict, *, with_includes_also: bool = True, with_excludes: bool = True) -> "NaceDocument":
         for key in ("CODE", "HEADING", "LEVEL"):
             if not raw.get(key):
@@ -344,12 +356,12 @@ For ~1k documents this sequential loop is fine; for production-scale corpora, ba
 #| tags: [parameters]
 
 SAMPLE_SIZE = 100
+SAMPLE_SEED = 42
 ```
 
 ```{python}
 #| label: params
 
-EMB_MODEL_NAME = "qwen3-embedding-8b"
 GEN_MODEL_NAME = "gemma4-26b-moe"
 
 RETRIEVER_LIMIT = 5
@@ -367,6 +379,14 @@ You are an expert classifier for the NACE 2.1 nomenclature (Statistical Classifi
 You are given a free-text description of an economic activity that needs to be recoded into NACE 2.1, together with a shortlist of candidate NACE 2.1 codes retrieved by a semantic search engine. Your job is to pick the single most appropriate code from the candidates, or to declare the activity not codable if the description is too ambiguous.
 
 Always reply with a valid JSON object matching the requested schema. No explanations, no extra text.
+
+## Output (valid JSON only)
+{{
+  "nace_code": "<one code from the candidate list, or null>",
+  "codable": <true | false>,
+  "confidence": <float between 0.0 and 1.0>
+}}
+
 """
 
 USER_PROMPT_TEMPLATE = """\
@@ -381,12 +401,6 @@ USER_PROMPT_TEMPLATE = """\
 - If several activities are mentioned, only consider the first one.
 - If the description is too vague to decide, return `nace_code: null` and `codable: false`.
 
-## Output (valid JSON only)
-{{
-  "nace_code": "<one code from the candidate list, or null>",
-  "codable": <true | false>,
-  "confidence": <float between 0.0 and 1.0>
-}}
 """
 ```
 
@@ -453,7 +467,7 @@ annotations = con.sql(f"""
     FROM read_parquet(
       'https://minio.lab.sspcloud.fr/projet-formation/diffusion/funathon/2026/project2/generation_None_temp08.parquet'
     )
-    USING SAMPLE {SAMPLE_SIZE}
+    USING SAMPLE {SAMPLE_SIZE} (reservoir, {SAMPLE_SEED})
 """).to_df().to_dict(orient="records")
 
 print(f"Loaded {len(annotations)} (label, reference NACE 2.1 code) pairs")
@@ -498,6 +512,12 @@ for doc in nace_documents:
 level3_docs = [doc for doc in nace_documents if doc.level == 3]
 level3_single_child = [doc.code for doc in level3_docs if len(children.get(doc.code, [])) == 1]
 
+# A level-3 code with a single level-4 child (e.g. `01.3` -> `01.30`) denotes the same
+# activity as that child — the trailing "0" adds no real subdivision. Map both ways so
+# the accuracy calculation in §5 can treat the pair as equal.
+SINGLE_CHILD_EQUIVALENTS = {parent: children[parent][0] for parent in level3_single_child}
+SINGLE_CHILD_EQUIVALENTS.update({child: parent for parent, child in SINGLE_CHILD_EQUIVALENTS.items()})
+
 print(f"{len(level3_single_child)} / {len(level3_docs)} level-3 codes have exactly one level-4 child")
 print("Examples:", level3_single_child[:5])
 ```
@@ -505,7 +525,7 @@ print("Examples:", level3_single_child[:5])
 ::: {.callout-important}
 **Some "parent vs. child" mismatches are not mismatches at all.** As shown above, **143 of the 287 level-3 codes (50%) have exactly one level-4 child** — e.g. `01.3` only ever expands to `01.30`. For these, the level-3 code and its level-4 child denote the *same* real-world activity: predicting the parent is not an approximation, it is the right answer written one level up.
 
-Counting these as pipeline errors artificially deflates the accuracy figures below. Before trusting an aggregate accuracy number for a use case where this matters, prune the nomenclature and/or the predicted codes: collapse parent codes with a single descendant onto that descendant (or, symmetrically, treat a prediction as correct whenever it is an ancestor of the true code *and* that ancestor has no other level-4 descendant). This tutorial does not implement that pruning — the metrics in §5 use plain string equality — but keep this caveat in mind when reading the results.
+Counting these as pipeline errors would artificially deflate the accuracy figures below. `SINGLE_CHILD_EQUIVALENTS` above maps each such pair onto one another, and §5's accuracy calculation treats them as equal instead of relying on plain string equality.
 :::
 
 ## Batch inference on the sample
@@ -556,10 +576,17 @@ Concretely: retriever hits 80% of the time, LLM then picks correctly 90% of *tho
 ```{python}
 #| label: eval-columns
 
+def _equivalent_codes(code):
+    """A code, plus its single-child/parent equivalent (see SINGLE_CHILD_EQUIVALENTS) if it has one."""
+    equivalent = SINGLE_CHILD_EQUIVALENTS.get(code)
+    return {code, equivalent} if equivalent else {code}
+
 results["retriever_hit"] = results.apply(
-    lambda row: row["true_code"] in row["retrieved_codes"], axis=1
+    lambda row: bool(_equivalent_codes(row["true_code"]) & set(row["retrieved_codes"])), axis=1
 )
-results["pipeline_correct"] = results["pred_code"] == results["true_code"]
+results["pipeline_correct"] = results.apply(
+    lambda row: row["pred_code"] in _equivalent_codes(row["true_code"]), axis=1
+)
 results["llm_correct_given_retriever"] = results.apply(
     lambda row: row["pipeline_correct"] if row["retriever_hit"] else None, axis=1
 )
@@ -647,7 +674,7 @@ else:
         + scale_color_manual(values={"Precision": "steelblue", "Coverage": "coral"})
         + scale_linetype_manual(values={"Precision": "solid", "Coverage": "dashed"})
         + labs(title="Precision and coverage vs. confidence threshold",
-               x="Confidence threshold", y="Value", color="", linetype="")
+               x="Confidence threshold", y="%", color="", linetype="")
         + theme_minimal()
     )
     display(p2)
